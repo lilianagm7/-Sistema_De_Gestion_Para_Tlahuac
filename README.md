@@ -1,2 +1,23 @@
-# -Sistema_De_Gestion_Para_Tlahuac
-un proyecto de residencias profesionales, que gestiona, organiza y centraliza la información de los eventos, talleres y personal que se integran a la alcaldía Tláhuac.
+# Sistema de Gestión de Eventos y Talleres
+
+Aplicación web desarrollada con **ASP.NET Core MVC** y **SQL Server** para la gestión de eventos, talleres, inscripciones y asistencias.
+
+## Tecnologías
+
+- ASP.NET Core MVC
+- Entity Framework Core
+- SQL Server
+- ASP.NET Identity
+
+## Funcionalidades
+
+- Gestión de eventos
+- Gestión de talleres
+- Registro de alumnos
+- Inscripciones
+- Control de asistencia
+- Generación de constancias
+
+## Autor
+
+Liliana
