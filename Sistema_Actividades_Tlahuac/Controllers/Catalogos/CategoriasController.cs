@@ -9,14 +9,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
 {
+    
     [Authorize]
     public class CategoriasController : Controller
     {
-        //accesos denegados 
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
 
         //llamada al servicio
         private readonly CategoriaService _categoriaService;
@@ -28,6 +24,7 @@ namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
 
         // GET: Categorias
         //Listado en orden por nombre
+        [Authorize(Roles = "Administrador, Coordinador")]
         public async Task<IActionResult> Index(bool mostrarInactivos = false)
         {
             //return View(await _context.Categorias.ToListAsync());
@@ -35,20 +32,9 @@ namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
             return View(categorias);
         }
 
-        // GET: Categorias/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            var categorias = await _categoriaService.ObtenerTodas(true);
-            var categoria = categorias.FirstOrDefault(c => c.Id == id);
-
-            if (categoria == null)
-                return NotFound();
-
-            return View(categoria);
-        }
-
-        [Authorize(Roles = "Administrador")]
+        
         // GET: Categorias/Create
+        [Authorize(Roles = "Administrador")]
         public IActionResult Create()
         {
             return View();
@@ -92,6 +78,7 @@ namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
         // POST: Categorias/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador, Coordinador")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion,Estado")] Categoria categoria)
         {
             if (id != categoria.Id)
@@ -130,6 +117,7 @@ namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
         // POST: Categorias/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Delete(int id)
         {
             await _categoriaService.Desactivar(id);
