@@ -17,6 +17,9 @@ namespace Sistema_Actividades_Tlahuac.Models.Catalogos
         //Concexion con el enum de estados
         public EstadoRegistro Estado { get; set; } = EstadoRegistro.Activo;
 
+        public DateTime FechaCreacion { get; set; }
+        public string? UsuarioCreacion { get; set; }
+
         // Relación donde categoria puede tener muchos eventos
         //public ICollection<Evento>? Eventos { get; set; } = new List<Evento>();
 
