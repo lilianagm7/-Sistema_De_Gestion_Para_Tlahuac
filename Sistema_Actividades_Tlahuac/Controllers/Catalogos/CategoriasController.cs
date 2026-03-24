@@ -1,11 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Sistema_Actividades_Tlahuac.Data;
-using Sistema_Actividades_Tlahuac.Models.Enums;
-using Sistema_Actividades_Tlahuac.Models.Catalogos;
-using Sistema_Actividades_Tlahuac.Services;
 using Microsoft.AspNetCore.Authorization;
+using Sistema_Actividades_Tlahuac.Models.Catalogos;
+using Sistema_Actividades_Tlahuac.Services.Catalogos;
 
 namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
 {
@@ -25,10 +23,10 @@ namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
         // GET: Categorias
         //Listado en orden por nombre
         [Authorize(Roles = "Administrador, Coordinador")]
-        public async Task<IActionResult> Index(bool mostrarInactivos = false)
+        public async Task<IActionResult> Index(string? buscador, bool mostrarInactivos = false)
         {
             //return View(await _context.Categorias.ToListAsync());
-            var categorias = await _categoriaService.ObtenerTodas(mostrarInactivos);
+            var categorias = await _categoriaService.ObtenerTodas(buscador, mostrarInactivos);
             return View(categorias);
         }
 
@@ -66,12 +64,9 @@ namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
         [Authorize(Roles = "Administrador, Coordinador")]
         public async Task<IActionResult> Edit(int? id)
         {
-            var categorias = await _categoriaService.ObtenerTodas(true);
-            var categoria = categorias.FirstOrDefault(c => c.Id == id);
-
-            if (categoria == null)
-                return NotFound();
-
+            if (id == null) return NotFound();
+            var categoria = await _categoriaService.ObtenerPorId(id.Value);
+            if(categoria== null) return NotFound();
             return View(categoria);
         }
 
@@ -105,9 +100,8 @@ namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
         // GET: Categorias/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            var categorias = await _categoriaService.ObtenerTodas(true);
-            var categoria = categorias.FirstOrDefault(c => c.Id == id);
-
+            if (id == null) return NotFound();  
+            var categoria = await _categoriaService.ObtenerPorId(id.Value);
             if (categoria == null)
                 return NotFound();
 

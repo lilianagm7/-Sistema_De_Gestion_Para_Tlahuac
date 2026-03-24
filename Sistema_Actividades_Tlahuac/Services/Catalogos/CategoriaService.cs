@@ -4,7 +4,7 @@ using Sistema_Actividades_Tlahuac.Models.Enums;
 using Sistema_Actividades_Tlahuac.Models.Catalogos;
 
 
-namespace Sistema_Actividades_Tlahuac.Services
+namespace Sistema_Actividades_Tlahuac.Services.Catalogos
 {
     public class CategoriaService
     {
@@ -64,7 +64,7 @@ namespace Sistema_Actividades_Tlahuac.Services
             await _context.SaveChangesAsync();
         }
         //Obtener lista de categorias
-        public async Task<List<Categoria>> ObtenerTodas(bool incluirInactivas = false)
+        public async Task<List<Categoria>> ObtenerTodas(string? buscador, bool incluirInactivas = false)
         {
             var query = _context.Categorias.AsQueryable();
 
@@ -72,10 +72,20 @@ namespace Sistema_Actividades_Tlahuac.Services
             {
                 query = query.Where(c => c.Estado == EstadoRegistro.Activo);
             }
+            if (!string.IsNullOrEmpty(buscador))
+            {
+                var busNormalizado = buscador.Trim().ToUpper();
+                query = query.Where(c => c.Nombre.ToUpper().Contains(busNormalizado));
+            }
 
             return await query
                 .OrderBy(c => c.Nombre)
                 .ToListAsync();
+        }
+
+        public async Task<Categoria?> ObtenerPorId(int id) { 
+            return await _context.Categorias
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
     }
 }

@@ -14,9 +14,10 @@ namespace Sistema_Actividades_Tlahuac.Models.Catalogos
         [StringLength(250, ErrorMessage = "Máximo 250 caracteres")]
         [Display(Name = "Descripción")]
         public string? Descripcion { get; set; }
-        //Concexion con el enum de estados
-        public EstadoRegistro Estado { get; set; } = EstadoRegistro.Activo;
 
+        //Conexion con el enum de estados
+        //Registro historico
+        public EstadoRegistro Estado { get; set; } = EstadoRegistro.Activo;
         public DateTime FechaCreacion { get; set; }
         public string? UsuarioCreacion { get; set; }
 

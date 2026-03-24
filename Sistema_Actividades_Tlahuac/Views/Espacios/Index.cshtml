@@ -1,8 +1,8 @@
-﻿@model IEnumerable<Sistema_Actividades_Tlahuac.Models.Catalogos.Categoria>
+﻿@model IEnumerable<Sistema_Actividades_Tlahuac.Models.Catalogos.Espacio>
 @using Sistema_Actividades_Tlahuac.Models.Enums;
 
 @{
-    ViewData["Title"] = "Categorias";
+    ViewData["Title"] = "Espacios";
 }
 <partial name="_Header_Index" />
 
@@ -13,11 +13,13 @@
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
+                @Html.DisplayNameFor(model => model.Capacidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
             </th>
             <th></th>
         </tr>
-
     </thead>
     <tbody>
         @foreach (var item in Model)
@@ -27,7 +29,7 @@
                     @Html.DisplayFor(modelItem => item.Nombre)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
+                    @Html.DisplayFor(modelItem => item.Capacidad)
                 </td>
                 <td>
                     @if (item.Estado == EstadoRegistro.Activo)

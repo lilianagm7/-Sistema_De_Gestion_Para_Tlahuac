@@ -14,31 +14,33 @@ namespace Sistema_Actividades_Tlahuac.Data
         }
         //Relacion a las tablas en SQL Server
         public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Espacio> Espacios { get; set; }
+
 
         //NO permite que se borren datos en cascada por parte de inscripciones.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-/*          modelBuilder.Entity<Inscripcion>()
-                 .HasOne(i => i.UsuarioRegistro)
-                 .WithMany()
-                 .HasForeignKey(i => i.UsuarioRegistroId)
-                 .OnDelete(DeleteBehavior.Restrict); //Restringe borrar registros
-*/
-            
-/*            //NO permite que se borren datos en cascada por parte de Eventos.
+            /*          modelBuilder.Entity<Inscripcion>()
+                             .HasOne(i => i.UsuarioRegistro)
+                             .WithMany()
+                             .HasForeignKey(i => i.UsuarioRegistroId)
+                             .OnDelete(DeleteBehavior.Restrict); //Restringe borrar registros
+            */
 
-            modelBuilder.Entity<Evento>()
-                .HasOne(e => e.Instructor)
-                .WithMany(i => i.Eventos)
-                .HasForeignKey(e => e.InstructorId)
-                .OnDelete(DeleteBehavior.Restrict);
-*/
+            /*            //NO permite que se borren datos en cascada por parte de Eventos.
+
+                        modelBuilder.Entity<Evento>()
+                            .HasOne(e => e.Instructor)
+                            .WithMany(i => i.Eventos)
+                            .HasForeignKey(e => e.InstructorId)
+                            .OnDelete(DeleteBehavior.Restrict);
+            */
             //Control de duplicados en categorias
             modelBuilder.Entity<Categoria>()
                 .HasIndex(c => c.Nombre)
                 .IsUnique();
         }
-        
+
     }
 }

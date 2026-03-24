@@ -3,12 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Sistema_Actividades_Tlahuac.Data;
 using Sistema_Actividades_Tlahuac.Data.Seed;
 using Sistema_Actividades_Tlahuac.Models.Actores;
-using Sistema_Actividades_Tlahuac.Services;
+using Sistema_Actividades_Tlahuac.Services.Catalogos;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //Agregar los servicios extras
 builder.Services.AddScoped<CategoriaService>();
+builder.Services.AddScoped<EspacioService>();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
