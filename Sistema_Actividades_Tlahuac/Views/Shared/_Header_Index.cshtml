@@ -11,20 +11,25 @@
         <!-- Botones (solo admin) -->
         @if (User.IsInRole("Administrador"))
         {
-            <!-- Boton de inactivos -->
-            <a asp-action="Index" asp-route-mostrarInactivos="true" class="btn btn-modificar">
-                Ver inactivos
-            </a>
             <!-- Botón activos -->
-            <a asp-action="Index" asp-route-mostrarInactivos="false" class="btn btn-primary">
-                Ver activos
+            <a asp-action="Index" asp-route-mostrarInactivos="false" class="btn btn-secondary">
+                <i class="bi bi-check-circle"></i>
             </a>
+            <!-- Boton de inactivos -->
+            <a asp-action="Index" asp-route-mostrarInactivos="true" class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i>
+            </a>
+
         }
         <!-- Buscador -->
-        <form method="get" class="d-flex">
+        <!--</><form method="get" asp-action="Index" class="d-flex"> -->
+        <form method="get"
+              asp-controller="@ViewContext.RouteData.Values["controller"]"
+              asp-action="Index"
+              class="d-flex">
             <input type="text"
-                   name="search"
-                   value="@Context.Request.Query["search"]"
+                   name="buscador"
+                   value="@Context.Request.Query["buscador"]"
                    class="form-control form-control-sm"
                    style="width:300px;"
                    placeholder="Buscar..." />

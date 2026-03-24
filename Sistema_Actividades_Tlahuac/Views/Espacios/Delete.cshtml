@@ -1,13 +1,13 @@
-﻿@model Sistema_Actividades_Tlahuac.Models.Catalogos.Categoria
+﻿@model Sistema_Actividades_Tlahuac.Models.Catalogos.Espacio
 
 @{
-    ViewData["Title"] = "Desactivar la categoría";
+    ViewData["Title"] = "Desactivar el espacio";
 }
 @{
     var boton = new
     {
         Id = Model.Id,
-        Controller = "Categorias",
+        Controller = "Espacio",
         Action = "Delete"
     };
 }
@@ -23,31 +23,29 @@
         <div class="card shadow-sm">
 
             <div class="card-body">
-
                 <dl class="row">
-
                     <dt class="col-sm-3">
                         @Html.DisplayNameFor(model => model.Nombre)
                     </dt>
-                    <dd class="col-sm-9">
+                    <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.Nombre)
                     </dd>
-
                     <dt class="col-sm-3">
-                        @Html.DisplayNameFor(model => model.Descripcion)
+                        @Html.DisplayNameFor(model => model.Capacidad)
                     </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.Descripcion)
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Capacidad)
                     </dd>
-
                     <dt class="col-sm-3">
                         @Html.DisplayNameFor(model => model.Estado)
                     </dt>
-                    <dd class="col-sm-9">
+                    <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.Estado)
                     </dd>
                 </dl>
+
                 <partial name="_Boton_Desactivar" model="boton" />
+
             </div>
         </div>
     </div>
