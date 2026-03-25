@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Sistema_Actividades_Tlahuac.Data;
 using Sistema_Actividades_Tlahuac.Models.Enums;
 using Sistema_Actividades_Tlahuac.Models.Catalogos;
+
 namespace Sistema_Actividades_Tlahuac.Services.Catalogos
 {
     public class EspacioService
@@ -15,7 +16,6 @@ namespace Sistema_Actividades_Tlahuac.Services.Catalogos
         }
 
         //Organizar lista por nombre
-        //Buscador 
         //Activas e incactivas
         public async Task<List<Espacio>> ObtenerTodas(string? buscador, bool incluirInactivas = false)
         {
@@ -34,12 +34,15 @@ namespace Sistema_Actividades_Tlahuac.Services.Catalogos
 
             return await query
                 .OrderBy(e => e.Nombre)
+                 .Include(e => e.Lugar)
                 .ToListAsync();
         }
 
+        //Buscador 
         public async Task<Espacio?> ObtenerPorId(int id)
         {
             return await _context.Espacios
+                .Include(e => e.Lugar)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 

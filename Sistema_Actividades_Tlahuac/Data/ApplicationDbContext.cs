@@ -15,6 +15,7 @@ namespace Sistema_Actividades_Tlahuac.Data
         //Relacion a las tablas en SQL Server
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Espacio> Espacios { get; set; }
+        public DbSet<Lugar> Lugares { get; set; }
 
 
         //NO permite que se borren datos en cascada por parte de inscripciones.

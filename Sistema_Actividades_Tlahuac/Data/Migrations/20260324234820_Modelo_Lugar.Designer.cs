@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sistema_Actividades_Tlahuac.Data;
 
@@ -11,9 +12,11 @@ using Sistema_Actividades_Tlahuac.Data;
 namespace Sistema_Actividades_Tlahuac.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260324234820_Modelo_Lugar")]
+    partial class Modelo_Lugar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -290,7 +293,7 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LugarId")
+                    b.Property<int?>("LugarId")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
@@ -317,7 +320,6 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Colonia")
-                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -412,13 +414,9 @@ namespace Sistema_Actividades_Tlahuac.Migrations
 
             modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Catalogos.Espacio", b =>
                 {
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Catalogos.Lugar", "Lugar")
+                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Catalogos.Lugar", null)
                         .WithMany("Espacios")
-                        .HasForeignKey("LugarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Lugar");
+                        .HasForeignKey("LugarId");
                 });
 
             modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Catalogos.Lugar", b =>
