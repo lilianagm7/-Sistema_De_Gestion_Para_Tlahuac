@@ -1,7 +1,7 @@
 ﻿@model Sistema_Actividades_Tlahuac.Models.Catalogos.Lugar
 
 @{
-    ViewData["Title"] = "Desactivar la categoría";
+    ViewData["Title"] = "Desactivar el lugar";
 }
 @{
     var boton = new
@@ -65,12 +65,6 @@
                     </dt>
                     <dd class="col-sm-10">
                         @Html.DisplayFor(model => model.Estado)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.FechaCreacion)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.FechaCreacion)
                     </dd>
                 </dl>
                 <partial name="_Boton_Desactivar" model="boton" />

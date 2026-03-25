@@ -5,6 +5,7 @@ using Sistema_Actividades_Tlahuac.Data;
 using Microsoft.AspNetCore.Authorization;
 using Sistema_Actividades_Tlahuac.Models.Catalogos;
 using Sistema_Actividades_Tlahuac.Services.Catalogos;
+using System.Security.Claims;
 
 namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
 {

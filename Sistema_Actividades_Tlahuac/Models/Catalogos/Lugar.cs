@@ -4,6 +4,7 @@ using Sistema_Actividades_Tlahuac.Models.Actores;
 using Sistema_Actividades_Tlahuac.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sistema_Actividades_Tlahuac.Models.Catalogos
 {
@@ -40,8 +41,15 @@ namespace Sistema_Actividades_Tlahuac.Models.Catalogos
 
         //Relacion con la tabla usuarios
         public string? UsuarioCreacion { get; set; }
+        [ForeignKey("UsuarioCreacion")]
         [ValidateNever]
         public ApplicationUser Usuario { get; set; }
+        //Modificacion
+        public DateTime? FechaModificacion { get; set; } = DateTime.Now;
+        public string? UsuarioModificacion { get; set; }
+        [ForeignKey("UsuarioModificacion")]
+        [ValidateNever]
+        public ApplicationUser Us_Modifica { get; set; }
 
 
         //Relacion con tabla espacios
