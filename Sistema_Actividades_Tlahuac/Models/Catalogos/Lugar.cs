@@ -3,34 +3,43 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Sistema_Actividades_Tlahuac.Models.Actores;
 using Sistema_Actividades_Tlahuac.Models.Enums;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sistema_Actividades_Tlahuac.Models.Catalogos
 {
-    public class Espacio
+    public class Lugar
     {
         public int Id { get; set; }
+
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [StringLength(100, ErrorMessage = "Máximo 100 caracteres")]
         public string Nombre { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "La colonia es obligatoria")]
+        [StringLength(150, ErrorMessage = "Máximo 150 caracteres")]
+        public string? Colonia { get; set; } = string.Empty;
 
-        [Range(1, 10000, ErrorMessage = "La capacidad debe ser mayor a 0")]
-        [Required(ErrorMessage = "La capacidad es obligatoria")]
-        [Display(Name = "Capacidad maxima")]
-        public int Capacidad { get; set; }
+        [StringLength(100, ErrorMessage = "Máximo 100 caracteres")]
+        [Display(Name = "Sección")]
+        public string? Seccion { get; set; }
 
-        //Relaciones a otras tablas
-        [Required(ErrorMessage = "El lugar es obligatorio")]
-        [Display(Name = "Lugar al que corresponde")]
-        public int LugarId { get; set; }
-        [ValidateNever]
-        public Lugar Lugar { get; set; }
+        [StringLength(250, ErrorMessage = "Máximo 250 caracteres")]
+        [Display(Name = "Dirección")]
+        public string? Direccion { get; set; } = string.Empty;
 
-        //Registro historico
+        [Range(-90, 90, ErrorMessage = "Latitud inválida")]
+        public double? Latitud { get; set; }
+
+        [Range(-180, 180, ErrorMessage = "Longitud inválida")]
+        public double? Longitud { get; set; }
+
+    //Registro historico
         public EstadoRegistro Estado { get; set; } = EstadoRegistro.Activo;
         [Display(Name = "Fecha de creación")]
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
+
+        //Relacion con la tabla usuarios
         public string? UsuarioCreacion { get; set; }
         [ForeignKey("UsuarioCreacion")]
         [ValidateNever]
@@ -41,11 +50,9 @@ namespace Sistema_Actividades_Tlahuac.Models.Catalogos
         [ForeignKey("UsuarioModificacion")]
         [ValidateNever]
         public ApplicationUser Us_Modifica { get; set; }
-       
 
-        /*// Relación: en un espacio pueden realizarse eventos y talleres
-        public ICollection<Evento> Eventos { get; set; } = new List<Evento>();
-        public ICollection<Taller> Talleres { get; set; } = new List<Taller>();
-        */
+
+        //Relacion con tabla espacios
+        public ICollection<Espacio> Espacios { get; set; } = new List<Espacio>();
     }
 }

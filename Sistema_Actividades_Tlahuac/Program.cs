@@ -10,6 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 //Agregar los servicios extras
 builder.Services.AddScoped<CategoriaService>();
 builder.Services.AddScoped<EspacioService>();
+builder.Services.AddScoped<LugarService>();
+builder.Services.AddScoped<ParentescoService>();
+
+
+//servicio de auditoria
+builder.Services.AddHttpContextAccessor();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
