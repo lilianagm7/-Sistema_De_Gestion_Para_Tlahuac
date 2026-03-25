@@ -1,8 +1,8 @@
-﻿@model IEnumerable<Sistema_Actividades_Tlahuac.Models.Catalogos.Espacio>
+﻿@model IEnumerable<Sistema_Actividades_Tlahuac.Models.Catalogos.Lugar>
 @using Sistema_Actividades_Tlahuac.Models.Enums;
 
 @{
-    ViewData["Title"] = "Espacios";
+    ViewData["Title"] = "Lugares";
 }
 <partial name="_Header_Index" />
 
@@ -13,13 +13,22 @@
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Capacidad)
+                @Html.DisplayNameFor(model => model.Colonia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Seccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Latitud)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Longitud)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(Model => Model.Lugar)
             </th>
             <th></th>
         </tr>
@@ -32,7 +41,19 @@
                     @Html.DisplayFor(modelItem => item.Nombre)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Capacidad)
+                    @Html.DisplayFor(modelItem => item.Colonia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Seccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Latitud)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Longitud)
                 </td>
                 <td>
                     @if (item.Estado == EstadoRegistro.Activo)
@@ -43,9 +64,6 @@
                     {
                         <span class="badge bg-secondary">Inactivo</span>
                     }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lugar.Nombre)
                 </td>
                 <td>
                     <partial name="_Botones_Tablas" model="item.Id" />
