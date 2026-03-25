@@ -1,0 +1,46 @@
+﻿@model Sistema_Actividades_Tlahuac.Models.Catalogos.Parentesco
+
+@{
+    ViewData["Title"] = "Desactivar la categoría";
+}
+@{
+    var boton = new
+    {
+        Id = Model.Id,
+        Controller = "Categorias",
+        Action = "Delete"
+    };
+}
+
+<partial name="_Header_Vistas" />
+
+<hr />
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Nombre)
+                    </dd>
+                    <br>
+                    <dt class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Descripcion)
+                    </dd>
+                </dl>
+
+                <partial name="_Boton_Desactivar" model="boton" />
+            </div>
+        </div>
+    </div>
+</div>

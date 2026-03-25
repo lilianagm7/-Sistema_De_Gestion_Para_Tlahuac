@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sistema_Actividades_Tlahuac.Data;
 
@@ -11,9 +12,11 @@ using Sistema_Actividades_Tlahuac.Data;
 namespace Sistema_Actividades_Tlahuac.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260325051253_Actualizacion_Registro_Historico")]
+    partial class Actualizacion_Registro_Historico
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -384,47 +387,6 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                     b.ToTable("Lugares");
                 });
 
-            modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Catalogos.Parentesco", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Descripcion")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("Estado")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaModificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("UsuarioCreacion")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UsuarioModificacion")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioCreacion");
-
-                    b.HasIndex("UsuarioModificacion");
-
-                    b.ToTable("Parentescos");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -515,21 +477,6 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                 });
 
             modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Catalogos.Lugar", b =>
-                {
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioCreacion");
-
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Us_Modifica")
-                        .WithMany()
-                        .HasForeignKey("UsuarioModificacion");
-
-                    b.Navigation("Us_Modifica");
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Catalogos.Parentesco", b =>
                 {
                     b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Usuario")
                         .WithMany()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Sistema_Actividades_Tlahuac.Models.Catalogos;
 using Sistema_Actividades_Tlahuac.Services.Catalogos;
@@ -57,6 +58,7 @@ namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
             {
                 // Recargamos dropdown si falla validación
                 var lugares = await _lugarService.ObtenerTodos(null, false);
+                
 
                 ViewData["LugarId"] = new SelectList(
                     lugares.Select(l => new
@@ -74,17 +76,14 @@ namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
 
             try
             {
-                // Guardamos usando el servicio (ahí está la lógica)
+                // Guardamos usando el servicio
                 await _espacioService.Create(espacio);
-
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 // Mostramos error del servicio
                 ModelState.AddModelError("", ex.Message);
-
-                // IMPORTANTE: recargar dropdown también aquí
                 var lugares = await _lugarService.ObtenerTodos(null, false);
 
                 ViewData["LugarId"] = new SelectList(

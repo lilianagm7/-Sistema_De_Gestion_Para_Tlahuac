@@ -1,4 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Sistema_Actividades_Tlahuac.Models.Actores;
+using System.ComponentModel.DataAnnotations.Schema;
 using Sistema_Actividades_Tlahuac.Models.Enums;
 
 namespace Sistema_Actividades_Tlahuac.Models.Catalogos
@@ -16,10 +19,23 @@ namespace Sistema_Actividades_Tlahuac.Models.Catalogos
         public string? Descripcion { get; set; }
 
         //Conexion con el enum de estados
-        //Registro historico
         public EstadoRegistro Estado { get; set; } = EstadoRegistro.Activo;
-        public DateTime FechaCreacion { get; set; }
+        
+        //Registro historico
+        [Display(Name = "Fecha de creación")]
+        public DateTime FechaCreacion { get; set; } = DateTime.Now;
+
+        //Relacion con la tabla usuarios
         public string? UsuarioCreacion { get; set; }
+        [ForeignKey("UsuarioCreacion")]
+        [ValidateNever]
+        public ApplicationUser Usuario { get; set; }
+        //Modificacion
+        public DateTime? FechaModificacion { get; set; } = DateTime.Now;
+        public string? UsuarioModificacion { get; set; }
+        [ForeignKey("UsuarioModificacion")]
+        [ValidateNever]
+        public ApplicationUser Us_Modifica { get; set; }
 
         // Relación donde categoria puede tener muchos eventos
         //public ICollection<Evento>? Eventos { get; set; } = new List<Evento>();
