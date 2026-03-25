@@ -1,27 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Sistema_Actividades_Tlahuac.Models.Actores;
-using System.ComponentModel.DataAnnotations.Schema;
 using Sistema_Actividades_Tlahuac.Models.Enums;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sistema_Actividades_Tlahuac.Models.Catalogos
 {
-    public class Categoria
+    public class Parentesco
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "El nombre de la categoría es obligatorio")]
-        [StringLength(100, ErrorMessage = "Máximo 100 caracteres")]
-        public string Nombre { get; set; } = string.Empty;
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        [StringLength(50, ErrorMessage = "Máximo 100 caracteres")]
+        [Display(Name = "¿Qué es del alumno?")]
+        public string Nombre { get; set; }
 
         [StringLength(250, ErrorMessage = "Máximo 250 caracteres")]
         [Display(Name = "Descripción")]
         public string? Descripcion { get; set; }
 
-        //Conexion con el enum de estados
-        public EstadoRegistro Estado { get; set; } = EstadoRegistro.Activo;
-        
         //Registro historico
+        public EstadoRegistro Estado { get; set; } = EstadoRegistro.Activo;
         [Display(Name = "Fecha de creación")]
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
 
@@ -37,8 +36,9 @@ namespace Sistema_Actividades_Tlahuac.Models.Catalogos
         [ValidateNever]
         public ApplicationUser Us_Modifica { get; set; }
 
-        // Relación donde categoria puede tener muchos eventos
-        //public ICollection<Evento>? Eventos { get; set; } = new List<Evento>();
-
+        /*
+        // Relación donde parentesco puede tener muchos alumnos
+        public ICollection<Alumno> Alumnos { get; set; } = new List<Alumno>();
+        */
     }
 }

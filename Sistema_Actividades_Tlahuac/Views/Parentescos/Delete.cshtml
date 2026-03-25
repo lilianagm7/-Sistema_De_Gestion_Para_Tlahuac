@@ -1,13 +1,13 @@
-﻿@model Sistema_Actividades_Tlahuac.Models.Catalogos.Espacio
+﻿@model Sistema_Actividades_Tlahuac.Models.Catalogos.Parentesco
 
 @{
-    ViewData["Title"] = "Desactivar el espacio";
+    ViewData["Title"] = "Desactivar la categoría";
 }
 @{
     var boton = new
     {
         Id = Model.Id,
-        Controller = "Espacio",
+        Controller = "Categorias",
         Action = "Delete"
     };
 }
@@ -30,28 +30,16 @@
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.Nombre)
                     </dd>
+                    <br>
                     <dt class="col-sm-3">
-                        @Html.DisplayNameFor(model => model.Capacidad)
+                        @Html.DisplayNameFor(model => model.Descripcion)
                     </dt>
                     <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.Capacidad)
-                    </dd>
-                    <dt class="col-sm-3">
-                        @Html.DisplayNameFor(model => model.Estado)
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.Estado)
-                    </dd>
-                    <dt class="col-sm-3">
-                        @Html.DisplayNameFor(model => model.Lugar)
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => Model.Lugar.Nombre)
+                        @Html.DisplayFor(model => model.Descripcion)
                     </dd>
                 </dl>
 
                 <partial name="_Boton_Desactivar" model="boton" />
-
             </div>
         </div>
     </div>

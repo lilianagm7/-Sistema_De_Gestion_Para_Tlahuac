@@ -133,7 +133,7 @@ namespace Sistema_Actividades_Tlahuac.Areas.Identity.Pages.Account
                     Nombre = Input.Nombre,
                     ApellidoPaterno = Input.ApellidoPaterno,
                     ApellidoMaterno = Input.ApellidoMaterno,
-                    FechaRegistro = DateTime.Now
+                    FechaCreacion = DateTime.Now
                 };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

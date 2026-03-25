@@ -46,6 +46,63 @@ namespace Sistema_Actividades_Tlahuac.Data.Seed
                     await userManager.AddToRoleAsync(user, "Administrador");
                 }
             }
+
+            //Crear usuario normal
+            string userEmail = "liliana@gmail.com";
+            string userPassword = "Mipagina123*";
+
+            var User_1 = await userManager.FindByEmailAsync(userEmail);
+
+
+            if (User_1 == null)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = userEmail,
+                    Email = userEmail,
+                    EmailConfirmed = true,
+                    Nombre = "Liliana",
+                    ApellidoPaterno = "Gerardo",
+                    ApellidoMaterno = "Mendez"
+
+                };
+
+                var result = await userManager.CreateAsync(user, userPassword);
+
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, "Usuario");
+                }
+            }
+
+
+            //Crear usuario coordinador
+            string coorEmail = "coordinador@tlahuac.com";
+            string coorPassword = "Mipagina123*";
+
+            var coordinador1 = await userManager.FindByEmailAsync(coorEmail);
+
+
+            if (coordinador1 == null)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = coorEmail,
+                    Email = coorEmail,
+                    EmailConfirmed = true,
+                    Nombre = "Coordinador",
+                    ApellidoPaterno = "de",
+                    ApellidoMaterno = "Tlahuac"
+
+                };
+
+                var result = await userManager.CreateAsync(user, coorPassword);
+
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, "Coordinador");
+                }
+            }
         }
     }
 }

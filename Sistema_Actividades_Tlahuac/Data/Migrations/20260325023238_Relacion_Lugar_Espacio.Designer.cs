@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sistema_Actividades_Tlahuac.Data;
 
@@ -11,9 +12,11 @@ using Sistema_Actividades_Tlahuac.Data;
 namespace Sistema_Actividades_Tlahuac.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260325023238_Relacion_Lugar_Espacio")]
+    partial class Relacion_Lugar_Espacio
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,7 +189,7 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<DateTime>("FechaRegistro")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("LockoutEnabled")
@@ -257,28 +260,18 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("FechaModificacion")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UsuarioCreacion")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UsuarioModificacion")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Nombre")
                         .IsUnique();
-
-                    b.HasIndex("UsuarioCreacion");
-
-                    b.HasIndex("UsuarioModificacion");
 
                     b.ToTable("Categorias");
                 });
@@ -300,9 +293,6 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("FechaModificacion")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("LugarId")
                         .HasColumnType("int");
 
@@ -312,18 +302,11 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UsuarioCreacion")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UsuarioModificacion")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LugarId");
-
-                    b.HasIndex("UsuarioCreacion");
-
-                    b.HasIndex("UsuarioModificacion");
 
                     b.ToTable("Espacios");
                 });
@@ -351,9 +334,6 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("FechaModificacion")
-                        .HasColumnType("datetime2");
-
                     b.Property<double?>("Latitud")
                         .HasColumnType("float");
 
@@ -370,135 +350,16 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UsuarioCreacion")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UsuarioModificacion")
+                    b.Property<string>("UsuarioId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioCreacion");
-
-                    b.HasIndex("UsuarioModificacion");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Lugares");
-                });
-
-            modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Catalogos.Parentesco", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Descripcion")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("Estado")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaModificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("UsuarioCreacion")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UsuarioModificacion")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Nombre")
-                        .IsUnique();
-
-                    b.HasIndex("UsuarioCreacion");
-
-                    b.HasIndex("UsuarioModificacion");
-
-                    b.ToTable("Parentescos");
-                });
-
-            modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Eventos.Evento", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AdministradorId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CapacidadMaxima")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CoordinadorId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CuposDisponibles")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("EspacioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Estado")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaFin")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaModificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImagenUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.Property<string>("UsuarioCreacion")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UsuarioModificacion")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EspacioId");
-
-                    b.HasIndex("UsuarioCreacion");
-
-                    b.HasIndex("UsuarioModificacion");
-
-                    b.ToTable("Eventos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -552,21 +413,6 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Catalogos.Categoria", b =>
-                {
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioCreacion");
-
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Us_Modifica")
-                        .WithMany()
-                        .HasForeignKey("UsuarioModificacion");
-
-                    b.Navigation("Us_Modifica");
-
-                    b.Navigation("Usuario");
-                });
-
             modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Catalogos.Espacio", b =>
                 {
                     b.HasOne("Sistema_Actividades_Tlahuac.Models.Catalogos.Lugar", "Lugar")
@@ -575,70 +421,14 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioCreacion");
-
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Us_Modifica")
-                        .WithMany()
-                        .HasForeignKey("UsuarioModificacion");
-
                     b.Navigation("Lugar");
-
-                    b.Navigation("Us_Modifica");
-
-                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Catalogos.Lugar", b =>
                 {
                     b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioCreacion");
-
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Us_Modifica")
-                        .WithMany()
-                        .HasForeignKey("UsuarioModificacion");
-
-                    b.Navigation("Us_Modifica");
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Catalogos.Parentesco", b =>
-                {
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioCreacion");
-
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Us_Modifica")
-                        .WithMany()
-                        .HasForeignKey("UsuarioModificacion");
-
-                    b.Navigation("Us_Modifica");
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Eventos.Evento", b =>
-                {
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Catalogos.Espacio", "Espacio")
-                        .WithMany()
-                        .HasForeignKey("EspacioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioCreacion");
-
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Us_Modifica")
-                        .WithMany()
-                        .HasForeignKey("UsuarioModificacion");
-
-                    b.Navigation("Espacio");
-
-                    b.Navigation("Us_Modifica");
+                        .HasForeignKey("UsuarioId");
 
                     b.Navigation("Usuario");
                 });
