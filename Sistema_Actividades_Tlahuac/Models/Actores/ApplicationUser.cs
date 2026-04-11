@@ -12,6 +12,7 @@ namespace Sistema_Actividades_Tlahuac.Models.Actores
 
         [Required(ErrorMessage = "El apellido materno es obligatorio")]
         public string ApellidoMaterno { get; set; }
-        public DateTime FechaRegistro { get; set; }
+        public DateTime FechaCreacion { get; set; }
+
     }
 }
