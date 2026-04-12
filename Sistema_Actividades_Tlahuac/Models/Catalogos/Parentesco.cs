@@ -30,7 +30,7 @@ namespace Sistema_Actividades_Tlahuac.Models.Catalogos
         [ValidateNever]
         public ApplicationUser Usuario { get; set; }
         //Modificacion
-        public DateTime? FechaModificacion { get; set; } = DateTime.Now;
+        public DateTime? FechaModificacion { get; set; }
         public string? UsuarioModificacion { get; set; }
         [ForeignKey("UsuarioModificacion")]
         [ValidateNever]

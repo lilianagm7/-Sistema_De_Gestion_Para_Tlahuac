@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sistema_Actividades_Tlahuac.Data;
 
@@ -11,9 +12,11 @@ using Sistema_Actividades_Tlahuac.Data;
 namespace Sistema_Actividades_Tlahuac.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260411210058_Actualizacion_Usuarios")]
+    partial class Actualizacion_Usuarios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -428,79 +431,6 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                     b.ToTable("Parentescos");
                 });
 
-            modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Eventos.Evento", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AdministradorId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CapacidadMaxima")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CoordinadorId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CuposDisponibles")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("EspacioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Estado")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaFin")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaModificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImagenUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.Property<string>("UsuarioCreacion")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UsuarioModificacion")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EspacioId");
-
-                    b.HasIndex("UsuarioCreacion");
-
-                    b.HasIndex("UsuarioModificacion");
-
-                    b.ToTable("Eventos");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -614,29 +544,6 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                     b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Us_Modifica")
                         .WithMany()
                         .HasForeignKey("UsuarioModificacion");
-
-                    b.Navigation("Us_Modifica");
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Eventos.Evento", b =>
-                {
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Catalogos.Espacio", "Espacio")
-                        .WithMany()
-                        .HasForeignKey("EspacioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioCreacion");
-
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Us_Modifica")
-                        .WithMany()
-                        .HasForeignKey("UsuarioModificacion");
-
-                    b.Navigation("Espacio");
 
                     b.Navigation("Us_Modifica");
 

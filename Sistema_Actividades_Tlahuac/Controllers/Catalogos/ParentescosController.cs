@@ -12,6 +12,7 @@ using Sistema_Actividades_Tlahuac.Services.Catalogos;
 
 namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
 {
+    [Authorize]
     public class ParentescosController : Controller
     {
         private readonly ParentescoService _parentescoService ;
@@ -23,6 +24,7 @@ namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
 
         // GET: Parentescos
         //Listado en orden por nombre
+        [Authorize(Roles = "Administrador, Coordinador")]
         public async Task<IActionResult> Index(string? buscador, bool mostrarInactivos = false)
         {
             var parentescos = await _parentescoService.ObtenerTodas(buscador, mostrarInactivos);

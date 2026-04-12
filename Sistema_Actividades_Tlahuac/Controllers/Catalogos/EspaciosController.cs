@@ -20,6 +20,7 @@ namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
         }
 
         // GET: Espacios
+        [Authorize(Roles = "Administrador, Coordinador")]
         public async Task<IActionResult> Index(string? buscador, bool mostrarInactivos = false)
         {
             // Organizados por nombre y filtrados por estado

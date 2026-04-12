@@ -35,7 +35,7 @@ namespace Sistema_Actividades_Tlahuac.Models.Catalogos
         public double? Longitud { get; set; }
 
     //Registro historico
-        public EstadoRegistro Estado { get; set; } = EstadoRegistro.Activo;
+        public EstadoRegistro Estado { get; set; }
         [Display(Name = "Fecha de creación")]
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
 

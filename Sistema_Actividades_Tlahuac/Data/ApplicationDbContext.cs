@@ -4,6 +4,7 @@ using Sistema_Actividades_Tlahuac.Models.Actores;
 using Sistema_Actividades_Tlahuac.Models.Catalogos;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+//using Sistema_Actividades_Tlahuac.Models.Eventos;
 
 namespace Sistema_Actividades_Tlahuac.Data
 {
@@ -24,6 +25,7 @@ namespace Sistema_Actividades_Tlahuac.Data
         public DbSet<Espacio> Espacios { get; set; }
         public DbSet<Lugar> Lugares { get; set; }
         public DbSet<Parentesco> Parentescos { get; set; }
+        //public DbSet<Evento>Eventos { get; set; }
 
 
         //NO permite que se borren datos en cascada por parte de inscripciones.
@@ -37,7 +39,7 @@ namespace Sistema_Actividades_Tlahuac.Data
                              .OnDelete(DeleteBehavior.Restrict); //Restringe borrar registros
             */
 
-            /*            //NO permite que se borren datos en cascada por parte de Eventos.
+            /*          //NO permite que se borren datos en cascada por parte de Eventos.
 
                         modelBuilder.Entity<Evento>()
                             .HasOne(e => e.Instructor)
@@ -45,10 +47,16 @@ namespace Sistema_Actividades_Tlahuac.Data
                             .HasForeignKey(e => e.InstructorId)
                             .OnDelete(DeleteBehavior.Restrict);
             */
-            //Control de duplicados en categorias
+
+
+            //Control de duplicados
             modelBuilder.Entity<Categoria>()
                 .HasIndex(c => c.Nombre)
                 .IsUnique();
+            modelBuilder.Entity<Parentesco>()
+               .HasIndex(c => c.Nombre)
+               .IsUnique();
+
         }
 
         //Auditoria automatica, para todos mis controladores
@@ -104,8 +112,15 @@ namespace Sistema_Actividades_Tlahuac.Data
                     }
 
                     //PROTECCION AL MOMENTO DE CAMBIOS
-                    entry.Property("FechaCreacion").IsModified = false;
-                    entry.Property("UsuarioCreacion").IsModified = false;
+                    if (entry.Entity is ApplicationUser)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        entry.Property("FechaCreacion").IsModified = false;
+                        entry.Property("UsuarioCreacion").IsModified = false;
+                    }
                 }
             }
 
