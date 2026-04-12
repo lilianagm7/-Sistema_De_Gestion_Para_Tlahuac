@@ -21,8 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Eventos\" />
+    <Folder Include="Models\ViewModels\" />
     <Folder Include="wwwroot\Imagenes\" />
+    <Folder Include="wwwroot\imagenes\eventos\" />
   </ItemGroup>
 
 </Project>
