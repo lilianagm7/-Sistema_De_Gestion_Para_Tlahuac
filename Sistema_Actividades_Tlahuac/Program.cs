@@ -4,6 +4,7 @@ using Sistema_Actividades_Tlahuac.Data;
 using Sistema_Actividades_Tlahuac.Data.Seed;
 using Sistema_Actividades_Tlahuac.Models.Actores;
 using Sistema_Actividades_Tlahuac.Services.Catalogos;
+using Sistema_Actividades_Tlahuac.Services.Eventos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddScoped<CategoriaService>();
 builder.Services.AddScoped<EspacioService>();
 builder.Services.AddScoped<LugarService>();
 builder.Services.AddScoped<ParentescoService>();
+builder.Services.AddScoped<EventoService>();
+
 
 
 //servicio de auditoria

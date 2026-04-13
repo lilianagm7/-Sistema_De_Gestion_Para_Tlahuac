@@ -437,20 +437,23 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AdministradorId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CapacidadMaxima")
                         .HasColumnType("int");
 
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CoordinadorId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CuposDisponibles")
                         .HasColumnType("int");
 
                     b.Property<string>("Descripcion")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EspacioId")
                         .HasColumnType("int");
@@ -475,14 +478,7 @@ namespace Sistema_Actividades_Tlahuac.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UsuarioCreacion")
                         .HasColumnType("nvarchar(450)");
@@ -492,13 +488,19 @@ namespace Sistema_Actividades_Tlahuac.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AdministradorId");
+
+                    b.HasIndex("CategoriaId");
+
+                    b.HasIndex("CoordinadorId");
+
                     b.HasIndex("EspacioId");
 
                     b.HasIndex("UsuarioCreacion");
 
                     b.HasIndex("UsuarioModificacion");
 
-                    b.ToTable("Eventos");
+                    b.ToTable("Evento");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -622,6 +624,20 @@ namespace Sistema_Actividades_Tlahuac.Migrations
 
             modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Eventos.Evento", b =>
                 {
+                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Administrador")
+                        .WithMany()
+                        .HasForeignKey("AdministradorId");
+
+                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Catalogos.Categoria", "Categoria")
+                        .WithMany()
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Coordinador")
+                        .WithMany()
+                        .HasForeignKey("CoordinadorId");
+
                     b.HasOne("Sistema_Actividades_Tlahuac.Models.Catalogos.Espacio", "Espacio")
                         .WithMany()
                         .HasForeignKey("EspacioId")
@@ -635,6 +651,12 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                     b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Us_Modifica")
                         .WithMany()
                         .HasForeignKey("UsuarioModificacion");
+
+                    b.Navigation("Administrador");
+
+                    b.Navigation("Categoria");
+
+                    b.Navigation("Coordinador");
 
                     b.Navigation("Espacio");
 

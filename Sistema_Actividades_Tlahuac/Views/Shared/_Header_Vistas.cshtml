@@ -1,14 +1,9 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
 <div class="d-flex justify-content-between align-items-center mb-3">
 
     <h1 class="mb-0">@ViewData["Title"]</h1>
 
     <div class="d-flex gap-2">
-        <!-- Botón solo para administradores -->
         @if (User.IsInRole("Administrador"))
         {
             <a asp-controller="Admin"
@@ -17,13 +12,13 @@
                 <i class="bi bi-gear"></i> Panel Admin
             </a>
         }
-        <!-- Botón ir a página principal -->
+        <!-- Página principal -->
         <a asp-controller="Home"
            asp-action="Index"
            class="btn btn-secondary">
             <i class="bi bi-house"></i> Inicio
         </a>
-        <!-- Botón de regreso a la lista -->
+        <!-- Regreso -->
         <a asp-action="Index"
            class="btn btn-secondary">
             <i class="bi bi-arrow-left"></i>
