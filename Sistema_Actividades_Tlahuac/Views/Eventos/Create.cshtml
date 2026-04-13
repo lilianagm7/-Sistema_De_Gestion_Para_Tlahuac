@@ -1,0 +1,122 @@
+﻿@model Sistema_Actividades_Tlahuac.Models.ViewModels.Eventos.EventoCreateViewModel
+
+@{
+    ViewData["Title"] = "Crear Evento";
+}
+
+<partial name="_Header_Vistas" />
+
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <form asp-action="Create" enctype="multipart/form-data">
+
+                    <!-- VALIDACIÓN GENERAL -->
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <!-- NOMBRE -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Nombre" class="form-label"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+
+                    <!-- DESCRIPCIÓN -->
+                    <div class="form-group mb-4">
+                        <label asp-for="Descripcion" class="form-label"></label>
+                        <textarea asp-for="Descripcion" class="form-control"></textarea>
+                        <span asp-validation-for="Descripcion" class="text-danger"></span>
+                    </div>
+
+                    <!-- IMAGEN -->
+                    <div class="form-group mb-4">
+                        <label asp-for="Imagen" class="form-label"></label>
+                        <input asp-for="Imagen" type="file" class="form-control" />
+                        <span asp-validation-for="Imagen" class="text-danger"></span>
+                    </div>
+
+                    <!-- BLOQUE: Configuración -->
+                    <h6 class="mb-3 text-muted">Configuración del evento</h6>
+                    <div class="row">
+
+                        <!-- CATEGORÍA -->
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="CategoriaId" class="form-label"></label>
+                            <select asp-for="CategoriaId" asp-items="Model.Categorias" class="form-control">
+                                <option value="">-- Selecciona una categoría --</option>
+                            </select>
+                            <span asp-validation-for="CategoriaId" class="text-danger"></span>
+                        </div>
+
+                        <!-- ESPACIO -->
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="EspacioId" class="form-label"></label>
+                            <select asp-for="EspacioId" class="form-control">
+                                <option value="">-- Selecciona un espacio --</option>
+                                @foreach (var espacio in Model.Espacios)
+                                {
+                                    <option value="@espacio.Id">
+                                        @espacio.Nombre (Cap: @espacio.Capacidad)
+                                    </option>
+                                }
+                            </select>
+                            <span asp-validation-for="EspacioId" class="text-danger"></span>
+                        </div>
+
+                        <!-- CAPACIDAD -->
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="CapacidadMaxima" class="form-label"></label>
+                            <input asp-for="CapacidadMaxima" class="form-control" />
+                            <span asp-validation-for="CapacidadMaxima" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <!-- BLOQUE: Fechas -->
+                    <h6 class="mb-3 text-muted">Fechas del evento</h6>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FechaInicio" class="form-label"></label>
+                            <input asp-for="FechaInicio" type="datetime-local" class="form-control" />
+                            <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FechaFin" class="form-label"></label>
+                            <input asp-for="FechaFin" type="datetime-local" class="form-control" />
+                            <span asp-validation-for="FechaFin" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <!-- BOTONES -->
+                    <div class="mt-4 d-flex justify-content-end gap-2">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            Cancelar
+                        </a>
+
+                        <button type="submit" class="btn btn-dorado">
+                            Crear Evento
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
