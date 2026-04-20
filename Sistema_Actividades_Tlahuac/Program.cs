@@ -17,6 +17,7 @@ builder.Services.AddScoped<EventoService>();
 
 
 
+
 //servicio de auditoria
 builder.Services.AddHttpContextAccessor();
 

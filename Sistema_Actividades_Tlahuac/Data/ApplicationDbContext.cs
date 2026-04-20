@@ -5,6 +5,7 @@ using Sistema_Actividades_Tlahuac.Models.Catalogos;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Sistema_Actividades_Tlahuac.Models.Eventos;
+using Sistema_Actividades_Tlahuac.Models.Talleres;
 
 namespace Sistema_Actividades_Tlahuac.Data
 {
@@ -26,6 +27,7 @@ namespace Sistema_Actividades_Tlahuac.Data
         public DbSet<Lugar> Lugares { get; set; }
         public DbSet<Parentesco> Parentescos { get; set; }
         public DbSet<Evento>Eventos { get; set; }
+        public DbSet<Taller>Talleres { get; set; }
 
 
         //NO permite que se borren datos en cascada por parte de inscripciones.
