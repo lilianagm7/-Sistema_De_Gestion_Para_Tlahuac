@@ -1,27 +1,69 @@
 ﻿@page
 @model IndexModel
+
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Perfil";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h3>@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
-                <label asp-for="Username" class="form-label"></label>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h4 class="mb-4 text-muted">Información de perfil</h4>
+
+                <form id="profile-form" method="post">
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger"
+                         role="alert">
+                    </div>
+
+                    <!-- USUARIO -->
+                    <div class="form-group mb-4">
+                        <label asp-for="Username" class="form-label">Nombre de usuario</label>
+                        <input asp-for="Username"
+                               class="form-control"
+                               placeholder="Nombre de usuario"
+                               disabled />
+                    </div>
+
+                    <!-- TELÉFONO -->
+                    <div class="form-group mb-4">
+                        <label asp-for="Input.PhoneNumber" class="form-label">Numero de telefono</label>
+                        <input asp-for="Input.PhoneNumber"
+                               class="form-control"
+                               placeholder="Ingrese su número de teléfono" />
+                        <span asp-validation-for="Input.PhoneNumber"
+                              class="text-danger">
+                        </span>
+                    </div>
+
+                    <!-- BOTONES -->
+                    <div class="mt-4 d-flex justify-content-end gap-2">
+
+                        <a asp-page="/"
+                           class="btn btn-secondary">
+                            Volver
+                        </a>
+
+                        <button id="update-profile-button"
+                                type="submit"
+                                class="btn btn-dorado">
+                            Guardar cambios
+                        </button>
+
+                    </div>
+
+                </form>
+
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
-        </form>
+        </div>
+
     </div>
 </div>
 
