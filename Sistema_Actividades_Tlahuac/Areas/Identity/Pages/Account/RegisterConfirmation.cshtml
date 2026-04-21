@@ -1,0 +1,37 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Confirmación de registro";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-body text-center p-4">
+
+                    <h3 class="mb-3">¡Registro exitoso!</h3>
+
+                    <p class="text-muted">
+                        Hemos enviado un enlace de confirmación a tu correo electrónico.
+                    </p>
+
+                    <p>
+                        Por favor revisa tu bandeja de entrada (o spam) y confirma tu cuenta para poder iniciar sesión.
+                    </p>
+
+                    <a asp-page="/Account/Login" class="btn btn-primary mt-3">
+                        Ir al inicio de sesión
+                    </a>
+
+                    <div class="mt-2">
+                        <a asp-page="/Account/ResendEmailConfirmation">
+                            ¿No recibiste el correo? Reenviar confirmación
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

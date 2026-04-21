@@ -20,8 +20,47 @@ html {
 body {
     margin-bottom: 60px;
 }
+/* */
+.nav-pills .nav-link {
+    background-color: white;
+    color: #7B3F61; /* vino elegante, no dramático */
+    border: 1px solid #E8DDE3;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
 
+    .nav-pills .nav-link:hover {
+        background-color: #F8F1F4;
+        color: #6A2E4F;
+        transform: translateX(2px);
+    }
 
+    .nav-pills .nav-link.active {
+        background-color: #7B3F61;
+        color: white;
+        border-color: #7B3F61;
+    }
+
+/**/
+.card {
+    border: none;
+    border-radius: 14px;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+h1 {
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 1.1rem;
+}
+
+/*Botones*/
 .btn-crear {
     background-color: #800020;
     color: white;
