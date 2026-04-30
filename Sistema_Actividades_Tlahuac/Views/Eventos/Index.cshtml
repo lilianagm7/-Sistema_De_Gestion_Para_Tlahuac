@@ -1,0 +1,61 @@
+﻿@model List<Sistema_Actividades_Tlahuac.Models.ViewModels.Eventos.EventoIndexViewModel>
+
+@{
+    ViewData["Title"] = "Eventos";
+}
+<partial name="_Header_Index" />
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+
+                <!-- Imagen -->
+                <img src="@(!string.IsNullOrEmpty(item.ImagenUrl)
+                        ? Url.Content("~" + item.ImagenUrl)
+                        : Url.Content("~/imagenes/default.jpg"))"
+                     class="card-img-top"
+                     style="height:200px; object-fit:cover;" />
+
+                <div class="card-body">
+                    <!-- Nombre -->
+                    <h5 class="card-title">@item.Nombre</h5>
+
+                    <!-- Fechas -->
+                    <p class="card-text mb-1">
+                        <strong>Inicio:</strong> @item.FechaInicio.ToString("dd/MM/yyyy")
+                    </p>
+                    <p class="card-text mb-1">
+                        <strong>Fin:</strong> @item.FechaFin.ToString("dd/MM/yyyy")
+                    </p>
+
+                    <!-- Lugar -->
+                    <p class="card-text mb-1">
+                        <strong>Lugar:</strong> @item.EspacioNombre
+                    </p>
+
+                    <!-- Categoría -->
+                    <p class="card-text mb-1">
+                        <strong>Categoría:</strong> @item.CategoriaNombre
+                    </p>
+
+                    <!-- Cupos -->
+                    <p class="card-text">
+                        <strong>Cupos disponibles:</strong> @item.CuposDisponibles
+                    </p>
+
+                </div>
+
+                <!-- Botones -->
+                <div>
+
+                    <partial name="_Botones_Usuarios" model="item.Id" />
+
+                    <partial name="_Botones_Tablas" model="item.Id" />
+                </div>
+
+            </div>
+        </div>
+    }
+</div>

@@ -1,17 +1,13 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@model int
+﻿@model int
 <div class="btn-group gap-1 gap-1" role="group">
-
-    <a asp-action="Edit"
-       asp-route-id="@Model"
-       class="btn btn-sm btn-modificar">
-        <i class="bi bi-pencil"></i>
-    </a>
-
+    @if (User.IsInRole("Administrador") || User.IsInRole("Coordinador"))
+    {
+        <a asp-action="Edit"
+           asp-route-id="@Model"
+           class="btn btn-sm btn-modificar">
+            <i class="bi bi-pencil"></i>
+        </a>
+    }
     <br>
     @if (User.IsInRole("Administrador"))
     {

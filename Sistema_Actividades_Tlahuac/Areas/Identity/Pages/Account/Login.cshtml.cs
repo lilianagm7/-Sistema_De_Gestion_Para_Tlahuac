@@ -22,9 +22,11 @@ namespace Sistema_Actividades_Tlahuac.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel( UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
         {
+            _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -81,7 +83,7 @@ namespace Sistema_Actividades_Tlahuac.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name = "¿Recordarla?")]
+            [Display(Name = "¿Desear recordar tu cuenta?")]
             public bool RememberMe { get; set; }
         }
 
@@ -110,31 +112,50 @@ namespace Sistema_Actividades_Tlahuac.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                //Buscar usuario primero
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                // Bloquear si no ha confirmado su correo
+                if (user != null && !await _userManager.IsEmailConfirmedAsync(user))
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Debes confirmar tu correo antes de iniciar sesión.");
                     return Page();
                 }
+
+                //Intento de login
+                var result = await _signInManager.PasswordSignInAsync(
+                    Input.Email,
+                    Input.Password,
+                    Input.RememberMe,
+                    lockoutOnFailure: false
+                );
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("Usuario conectado.");
+                    return LocalRedirect(returnUrl);
+                }
+
+                if (result.RequiresTwoFactor)
+                {
+                    return RedirectToPage("./LoginWith2fa", new
+                    {
+                        ReturnUrl = returnUrl,
+                        RememberMe = Input.RememberMe
+                    });
+                }
+
+                if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("Cuenta de usuario bloqueada.");
+                    return RedirectToPage("./Lockout");
+                }
+
+                //Error genérico
+                ModelState.AddModelError(string.Empty, "El intento de inicio de sesión es inválido.");
+                return Page();
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
     }

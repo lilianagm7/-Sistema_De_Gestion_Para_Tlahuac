@@ -4,7 +4,8 @@ using Sistema_Actividades_Tlahuac.Models.Actores;
 using Sistema_Actividades_Tlahuac.Models.Catalogos;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-//using Sistema_Actividades_Tlahuac.Models.Eventos;
+using Sistema_Actividades_Tlahuac.Models.Eventos;
+using Sistema_Actividades_Tlahuac.Models.Talleres;
 
 namespace Sistema_Actividades_Tlahuac.Data
 {
@@ -25,7 +26,8 @@ namespace Sistema_Actividades_Tlahuac.Data
         public DbSet<Espacio> Espacios { get; set; }
         public DbSet<Lugar> Lugares { get; set; }
         public DbSet<Parentesco> Parentescos { get; set; }
-        //public DbSet<Evento>Eventos { get; set; }
+        public DbSet<Evento>Eventos { get; set; }
+        public DbSet<Taller>Talleres { get; set; }
 
 
         //NO permite que se borren datos en cascada por parte de inscripciones.
@@ -59,7 +61,7 @@ namespace Sistema_Actividades_Tlahuac.Data
 
         }
 
-        //Auditoria automatica, para todos mis controladores
+        //Auditoria automatica, para todos los controladores
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var userId = _httpContextAccessor.HttpContext?
@@ -68,7 +70,7 @@ namespace Sistema_Actividades_Tlahuac.Data
 
             foreach (var entry in ChangeTracker.Entries())
             {
-                //AUDITORIA PARA CREACIÓN (UDUARIOS Y FECHAS)
+                //AUDITORIA PARA CREACIÓN (USUARIOS Y FECHAS)
                 if (entry.State == EntityState.Added)
                 {
                     if (entry.Entity is Espacio espacio)
@@ -90,7 +92,7 @@ namespace Sistema_Actividades_Tlahuac.Data
                     }
                 }
 
-                //AUDITORIA PARA MODIFICACIÓN (UDUARIOS Y FECHAS)
+                //AUDITORIA PARA MODIFICACIÓN (USUARIOS Y FECHAS)
                 if (entry.State == EntityState.Modified)
                 {
                     if (entry.Entity is Espacio espacio)
@@ -111,6 +113,12 @@ namespace Sistema_Actividades_Tlahuac.Data
                         categoria.FechaModificacion = DateTime.Now;
                     }
 
+                    if (entry.Entity is Parentesco parentesco)
+                    {
+                        parentesco.UsuarioModificacion = userId;
+                        parentesco.FechaModificacion = DateTime.Now;
+                    }
+
                     //PROTECCION AL MOMENTO DE CAMBIOS
                     if (entry.Entity is ApplicationUser)
                     {
@@ -126,6 +134,7 @@ namespace Sistema_Actividades_Tlahuac.Data
 
             return await base.SaveChangesAsync(cancellationToken);
         }
+        public DbSet<Sistema_Actividades_Tlahuac.Models.Eventos.Evento> Evento { get; set; } = default!;
 
 
     }

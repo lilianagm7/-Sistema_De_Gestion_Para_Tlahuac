@@ -1,0 +1,18 @@
+﻿@model int
+
+<div class="btn-group gap-1" role="group">
+    <a asp-action="Details"
+       asp-route-id="@Model"
+       class="btn btn-sm btn-detalles">
+        Ver más
+    </a>
+
+    @if (User.IsInRole("Usuario"))
+    {
+        <a asp-action="Inscribirse"
+           asp-route-id="@Model"
+           class="btn btn-sm btn-crear">
+            Inscribirse
+        </a>
+    }
+</div>

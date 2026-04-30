@@ -2,20 +2,67 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">
-        Bienvenido a los eventos que inspiran,
-        <br>unen y mueven a nuestra comunidad.
-    </h1>
-    <br><br>
-    <h3>
-        En la alcaldía Tláhuac se realizan diferentes eventos sobre nuestros talleres, <br> conócenos y únete a nosotros.
-    </h3>
-    <br><br>
-    <p>Muchos de nuestros cursos te están esperando </p>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>
+            Bienvenido a los eventos que inspiran,<br>
+            unen y mueven a nuestra comunidad.
+        </h1>
 
-    <p>Se puede contactar con nosotros por medio de:</p>
+        <p>
+            En la alcaldía Tláhuac se realizan diferentes eventos y talleres.
+            Conócenos y únete a nosotros.
+        </p>
+    </div>
+</section>
+
+<!-- ICONOS -->
+<section class="iconos">
+    <div class="icono">
+        <a asp-controller="Eventos" asp-action="Index">
+            <i class="bi bi-calendar-event"></i>
+        </a>
+    </div>
+
+    
+
+    <div class="icono">
+        <i class="bi bi-people"></i>
+    </div>
+    <div class="icono activo">
+        <i class="bi bi-geo-alt"></i>
+    </div>
+    <div class="icono">
+        <i class="bi bi-book"></i>
+    </div>
+</section>
+
+<!-- PROGRAMAS -->
+<section class="programas">
+    <h3>PROGRAMAS DE LA ALCALDÍA TLÁHUAC</h3>
+
+    <div class="cards">
+
+        <div class="card-programa">
+            
+            <h4>Tláhuac por tu Salud</h4>
+        </div>
+        <li class="card-programa">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Eventos" asp-action="Index">Eventos</a>
+        </li>
+
+        <div class="card-programa">
+           
+            <h4>Actívate Tláhuac</h4>
+        </div>
+
+    </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contacto">
+    <h4>Contacto</h4>
     <p>Teléfono: 55 5862 3250</p>
-    <p>Dirreccion: Av. Tláhuac s/n, esquina Nicolás Bravo, Bo. La Asunción, CP. 13000, Alcaldía Tláhuac, CDMX.</p></>
-
-</div>
+    <p>Dirección: Av. Tláhuac s/n, esquina Nicolás Bravo</p>
+</section>

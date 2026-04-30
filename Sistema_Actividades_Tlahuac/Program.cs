@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Sistema_Actividades_Tlahuac.Data;
 using Sistema_Actividades_Tlahuac.Data.Seed;
 using Sistema_Actividades_Tlahuac.Models.Actores;
 using Sistema_Actividades_Tlahuac.Services.Catalogos;
+using Sistema_Actividades_Tlahuac.Services.Eventos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +14,10 @@ builder.Services.AddScoped<CategoriaService>();
 builder.Services.AddScoped<EspacioService>();
 builder.Services.AddScoped<LugarService>();
 builder.Services.AddScoped<ParentescoService>();
+builder.Services.AddScoped<EventoService>();
 
+//correo
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 //servicio de auditoria
 builder.Services.AddHttpContextAccessor();
@@ -31,6 +36,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.AccessDeniedPath = "/Home/AccessDenied";
+});
+//confirmacion de correo
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = true;
 });
 
 var app = builder.Build();

@@ -437,13 +437,88 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AdministradorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CapacidadMaxima")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CoordinadorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CuposDisponibles")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EspacioId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Estado")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagenUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UsuarioCreacion")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UsuarioModificacion")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdministradorId");
+
+                    b.HasIndex("CategoriaId");
+
+                    b.HasIndex("CoordinadorId");
+
+                    b.HasIndex("EspacioId");
+
+                    b.HasIndex("UsuarioCreacion");
+
+                    b.HasIndex("UsuarioModificacion");
+
+                    b.ToTable("Evento");
+                });
+
+            modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Talleres.Taller", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AdministradorId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CapacidadMaxima")
                         .HasColumnType("int");
 
                     b.Property<string>("CoordinadorId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CuposDisponibles")
                         .HasColumnType("int");
@@ -492,13 +567,15 @@ namespace Sistema_Actividades_Tlahuac.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EspacioId");
+                    b.HasIndex("AdministradorId");
+
+                    b.HasIndex("CoordinadorId");
 
                     b.HasIndex("UsuarioCreacion");
 
                     b.HasIndex("UsuarioModificacion");
 
-                    b.ToTable("Eventos");
+                    b.ToTable("Talleres");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -622,6 +699,20 @@ namespace Sistema_Actividades_Tlahuac.Migrations
 
             modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Eventos.Evento", b =>
                 {
+                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Administrador")
+                        .WithMany()
+                        .HasForeignKey("AdministradorId");
+
+                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Catalogos.Categoria", "Categoria")
+                        .WithMany()
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Coordinador")
+                        .WithMany()
+                        .HasForeignKey("CoordinadorId");
+
                     b.HasOne("Sistema_Actividades_Tlahuac.Models.Catalogos.Espacio", "Espacio")
                         .WithMany()
                         .HasForeignKey("EspacioId")
@@ -636,7 +727,40 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                         .WithMany()
                         .HasForeignKey("UsuarioModificacion");
 
+                    b.Navigation("Administrador");
+
+                    b.Navigation("Categoria");
+
+                    b.Navigation("Coordinador");
+
                     b.Navigation("Espacio");
+
+                    b.Navigation("Us_Modifica");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Talleres.Taller", b =>
+                {
+                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Administrador")
+                        .WithMany()
+                        .HasForeignKey("AdministradorId");
+
+                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Coordinador")
+                        .WithMany()
+                        .HasForeignKey("CoordinadorId");
+
+                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioCreacion");
+
+                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Us_Modifica")
+                        .WithMany()
+                        .HasForeignKey("UsuarioModificacion");
+
+                    b.Navigation("Administrador");
+
+                    b.Navigation("Coordinador");
 
                     b.Navigation("Us_Modifica");
 
