@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Desactivar la categoría";
 }
+
 @{
     var boton = new
     {
@@ -16,38 +17,51 @@
 
 <hr />
 
-<div class="row justify-content-center">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="text-danger mb-4">
+                        ¿Estás seguro de desactivar esta categoría?
+                    </h5>
 
-    <div class="col-lg-8">
+                    <dl class="row mb-0">
 
-        <div class="card shadow-sm">
+                        <dt class="col-12 col-md-4 fw-semibold">
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </dt>
+                        <dd class="col-12 col-md-8">
+                            @Model.Nombre
+                        </dd>
 
-            <div class="card-body">
+                        <dt class="col-12 col-md-4 fw-semibold">
+                            @Html.DisplayNameFor(model => model.Descripcion)
+                        </dt>
+                        <dd class="col-12 col-md-8 text-muted">
+                            @Model.Descripcion
+                        </dd>
 
-                <dl class="row">
+                        <dt class="col-12 col-md-4 fw-semibold">
+                            @Html.DisplayNameFor(model => model.Estado)
+                        </dt>
+                        <dd class="col-12 col-md-8">
+                            @if (Model.Estado == Sistema_Actividades_Tlahuac.Models.Enums.EstadoRegistro.Activo)
+                            {
+                                <span class="badge bg-success">Activo</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactivo</span>
+                            }
+                        </dd>
 
-                    <dt class="col-sm-3">
-                        @Html.DisplayNameFor(model => model.Nombre)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.Nombre)
-                    </dd>
+                    </dl>
 
-                    <dt class="col-sm-3">
-                        @Html.DisplayNameFor(model => model.Descripcion)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.Descripcion)
-                    </dd>
-
-                    <dt class="col-sm-3">
-                        @Html.DisplayNameFor(model => model.Estado)
-                    </dt>
-                    <dd class="col-sm-9">
-                        @Html.DisplayFor(model => model.Estado)
-                    </dd>
-                </dl>
-                <partial name="_Boton_Desactivar" model="boton" />
+                    <div class="mt-4 d-flex justify-content-end">
+                        <partial name="_Boton_Desactivar" model="boton" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -34,9 +34,7 @@ namespace Sistema_Actividades_Tlahuac.Services.Catalogos
         //Crear categoria
         public async Task Crear(Categoria categoria)
         {
-            //Normalizacion antes de guardar
             categoria.Nombre = Normalizar(categoria.Nombre);
-            //estado inicial
             categoria.Estado = EstadoRegistro.Activo;
 
             _context.Add(categoria);

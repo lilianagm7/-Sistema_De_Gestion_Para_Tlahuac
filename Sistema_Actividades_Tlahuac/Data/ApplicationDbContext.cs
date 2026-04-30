@@ -26,14 +26,15 @@ namespace Sistema_Actividades_Tlahuac.Data
         public DbSet<Espacio> Espacios { get; set; }
         public DbSet<Lugar> Lugares { get; set; }
         public DbSet<Parentesco> Parentescos { get; set; }
-        public DbSet<Evento>Eventos { get; set; }
-        public DbSet<Taller>Talleres { get; set; }
-
+        public DbSet<Evento> Eventos { get; set; }
+        public DbSet<Taller> Talleres { get; set; }
+        public DbSet<Instructor> Instructores { get; set; }
 
         //NO permite que se borren datos en cascada por parte de inscripciones.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             /*          modelBuilder.Entity<Inscripcion>()
                              .HasOne(i => i.UsuarioRegistro)
                              .WithMany()
@@ -50,15 +51,26 @@ namespace Sistema_Actividades_Tlahuac.Data
                             .OnDelete(DeleteBehavior.Restrict);
             */
 
-
             //Control de duplicados
             modelBuilder.Entity<Categoria>()
                 .HasIndex(c => c.Nombre)
                 .IsUnique();
-            modelBuilder.Entity<Parentesco>()
-               .HasIndex(c => c.Nombre)
-               .IsUnique();
 
+            modelBuilder.Entity<Parentesco>()
+                .HasIndex(c => c.Nombre)
+                .IsUnique();
+
+            modelBuilder.Entity<Instructor>()
+                .HasOne(i => i.Usuario)
+                .WithMany()
+                .HasForeignKey(i => i.UsuarioCreacion)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Instructor>()
+                .HasOne(i => i.Us_Modifica)
+                .WithMany()
+                .HasForeignKey(i => i.UsuarioModificacion)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         //Auditoria automatica, para todos los controladores
@@ -90,6 +102,18 @@ namespace Sistema_Actividades_Tlahuac.Data
                         categoria.UsuarioCreacion = userId;
                         categoria.FechaCreacion = DateTime.Now;
                     }
+
+                    if (entry.Entity is Parentesco parentesco)
+                    {
+                        parentesco.UsuarioCreacion = userId;
+                        parentesco.FechaCreacion = DateTime.Now;
+                    }
+
+                    if (entry.Entity is Instructor instructor)
+                    {
+                        instructor.UsuarioCreacion = userId;
+                        instructor.FechaCreacion = DateTime.Now;
+                    }
                 }
 
                 //AUDITORIA PARA MODIFICACIÓN (USUARIOS Y FECHAS)
@@ -119,6 +143,12 @@ namespace Sistema_Actividades_Tlahuac.Data
                         parentesco.FechaModificacion = DateTime.Now;
                     }
 
+                    if (entry.Entity is Instructor instructor)
+                    {
+                        instructor.UsuarioModificacion = userId;
+                        instructor.FechaModificacion = DateTime.Now;
+                    }
+
                     //PROTECCION AL MOMENTO DE CAMBIOS
                     if (entry.Entity is ApplicationUser)
                     {
@@ -134,8 +164,5 @@ namespace Sistema_Actividades_Tlahuac.Data
 
             return await base.SaveChangesAsync(cancellationToken);
         }
-        public DbSet<Sistema_Actividades_Tlahuac.Models.Eventos.Evento> Evento { get; set; } = default!;
-
-
     }
 }

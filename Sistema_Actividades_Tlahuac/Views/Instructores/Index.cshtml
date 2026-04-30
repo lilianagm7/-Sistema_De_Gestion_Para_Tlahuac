@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Sistema_Actividades_Tlahuac.Models.Actores.Instructor>
+
+@{
+    ViewData["Title"] = "Instructores";
+}
+
+<partial name="_Header_Index" />
+
+<div class="container mt-4">
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>Instructor</th>
+                            <th class="d-none d-md-table-cell">Especialidad</th>
+                            <th class="d-none d-lg-table-cell">Teléfono</th>
+                            <th class="d-none d-lg-table-cell">Correo</th>
+                            <th>Estado</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <!-- Instructor -->
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+
+                                        <img src="@(item.FotoUrl ?? "/images/default-user.png")"
+                                             class="rounded-circle shadow-sm"
+                                             style="width:50px; height:50px; object-fit:cover;" />
+
+                                        <div>
+                                            <div class="fw-semibold">
+                                                @item.Usuario?.UserName
+                                            </div>
+
+                                            <small class="text-muted">
+                                                @item.NivelAcademico
+                                            </small>
+                                        </div>
+
+                                    </div>
+                                </td>
+
+                                <!-- Especialidad -->
+                                <td class="d-none d-md-table-cell">
+                                    @item.Especialidad
+                                </td>
+
+                                <!-- Teléfono -->
+                                <td class="d-none d-lg-table-cell">
+                                    @item.Telefono
+                                </td>
+
+                                <!-- Correo -->
+                                <td class="d-none d-lg-table-cell">
+                                    @item.EmailContacto
+                                </td>
+
+                                <!-- Estado -->
+                                <td>
+                                    @if (item.Estado == Sistema_Actividades_Tlahuac.Models.Enums.EstadoRegistro.Activo)
+                                    {
+                                        <span class="badge rounded-pill bg-success px-3 py-2">
+                                            Activo
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge rounded-pill bg-secondary px-3 py-2">
+                                            Inactivo
+                                        </span>
+                                    }
+                                </td>
+
+                                <!-- Acciones -->
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                                        <partial name="_Botones_Tablas" model="item.Id" />
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -20,6 +20,7 @@ namespace Sistema_Actividades_Tlahuac.Models.Eventos
         //Relacion con espacio
         public int EspacioId { get; set; }
         public Espacio Espacio { get; set; }
+
         //Relacion con categoria
         public int CategoriaId { get; set; }
         public Categoria Categoria { get; set; }

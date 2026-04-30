@@ -6,6 +6,7 @@ using Sistema_Actividades_Tlahuac.Data.Seed;
 using Sistema_Actividades_Tlahuac.Models.Actores;
 using Sistema_Actividades_Tlahuac.Services.Catalogos;
 using Sistema_Actividades_Tlahuac.Services.Eventos;
+using Sistema_Actividades_Tlahuac.Services.Instructores;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddScoped<EspacioService>();
 builder.Services.AddScoped<LugarService>();
 builder.Services.AddScoped<ParentescoService>();
 builder.Services.AddScoped<EventoService>();
+builder.Services.AddScoped<InstructorService>();
+
 
 //correo
 builder.Services.AddTransient<IEmailSender, EmailSender>();

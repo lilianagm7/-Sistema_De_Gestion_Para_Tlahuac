@@ -1,0 +1,144 @@
+﻿@model Sistema_Actividades_Tlahuac.Models.Actores.Instructor
+@using Sistema_Actividades_Tlahuac.Models.Enums
+
+@{
+    ViewData["Title"] = "Crear nuevo instructor";
+}
+
+<partial name="_Header_Vistas" />
+<hr />
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+
+                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <!-- Usuario + RFC -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="UserId" class="form-label"></label>
+                                <select asp-for="UserId"
+                                        asp-items="ViewBag.UserId"
+                                        class="form-control">
+                                    <option value="">-- Selecciona un usuario --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="RFC" class="form-label"></label>
+                                <input asp-for="RFC" class="form-control" />
+                                <span asp-validation-for="RFC" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Dirección + Nivel Académico + Descripción -->
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Direccion" class="form-label"></label>
+                                <input asp-for="Direccion" class="form-control" />
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="NivelAcademico" class="form-label"></label>
+                                <select asp-for="NivelAcademico"
+                                        asp-items="Html.GetEnumSelectList<GradoAcademico>()"
+                                        class="form-control">
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="DescripcionGrado" class="form-label"></label>
+                                <input asp-for="DescripcionGrado" class="form-control" />
+                            </div>
+                        </div>
+
+                        <!-- Especialidad + Tipo Contrato + Salario -->
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Especialidad" class="form-label"></label>
+                                <input asp-for="Especialidad" class="form-control" />
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="TipoContrato" class="form-label"></label>
+                                <select asp-for="TipoContrato"
+                                        asp-items="Html.GetEnumSelectList<TipoContrato>()"
+                                        class="form-control">
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Salario" class="form-label"></label>
+                                <input asp-for="Salario" class="form-control" />
+                            </div>
+                        </div>
+
+                        <!-- Fechas + Teléfono -->
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="FechaIngreso" class="form-label"></label>
+                                <input asp-for="FechaIngreso"
+                                       type="date"
+                                       class="form-control" />
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="FechaFinContrato" class="form-label"></label>
+                                <input asp-for="FechaFinContrato"
+                                       type="date"
+                                       class="form-control" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Telefono" class="form-label"></label>
+                                <input asp-for="Telefono" class="form-control" />
+                            </div>
+                        </div>
+
+                        <!-- Correo + Foto -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="EmailContacto" class="form-label"></label>
+                                <input asp-for="EmailContacto" class="form-control" />
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="FotoUrl" class="form-label"></label>
+                                <input asp-for="FotoUrl"
+                                       type="file"
+                                       class="form-control" />
+                                <span asp-validation-for="FotoUrl" class="text-danger"></span>
+                            </div>
+                        </div>
+                      
+                        <!-- Botones -->
+                        <div class="mt-4 d-flex justify-content-end gap-2">
+
+                            <a asp-action="Index"
+                               class="btn btn-secondary">
+                                Cancelar
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-dorado">
+                                Crear instructor
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
