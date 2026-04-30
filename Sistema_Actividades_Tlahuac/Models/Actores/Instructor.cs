@@ -2,7 +2,7 @@
 using Sistema_Actividades_Tlahuac.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+/*nueva actualizacion*/
 namespace Sistema_Actividades_Tlahuac.Models.Actores
 {
     public class Instructor
