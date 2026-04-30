@@ -142,23 +142,152 @@ namespace Sistema_Actividades_Tlahuac.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("La nueva cuenta ha sido creada exitosamente.");
 
+                    //Generar token
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                    //Codificar token (IMPORTANTE)
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                    //Crear link de confirmación
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                        values: new { area = "Identity", userId = userId, code = code },
                         protocol: Request.Scheme);
+                    // Correo de confirmación profesional
+                    var mensaje = $@"
+                        <div style='
+                            font-family: Arial, sans-serif;
+                            background-color: #800020;
+                            padding: 40px 20px;
+                            margin: 0;
+                        '>
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        <div style='
+                            max-width: 600px;
+                            margin: auto;
+                            background: #ffffff;
+                            border-radius: 12px;
+                            overflow: hidden;
+                            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                        '>
+
+                            <!-- Header -->
+                            <div style='
+                                background-color: #7B3F61;
+                                padding: 30px;
+                                text-align: center;
+                                color: white;
+                            '>
+                                <h1 style='margin:0; font-size: 26px;'>
+                                    Actividades y eventos Tláhuac
+                                </h1>
+                            </div>
+
+                            <!-- Body -->
+                            <div style='padding: 40px 30px;'>
+
+                                <h2 style='
+                                    margin-top: 0;
+                                    color: #333;
+                                    font-size: 22px;
+                                '>
+                                    Hola, {Input.Nombre}
+                                </h2>
+
+                                <p style='
+                                    color: #555;
+                                    line-height: 1.7;
+                                    font-size: 15px;
+                                '>
+                                    Gracias por registrarte en nuestra plataforma.
+                                    Para activar tu cuenta y comenzar a utilizar el sistema,
+                                    es necesario confirmar tu correo electrónico.
+                                </p>
+
+                                <p style='
+                                    color: #555;
+                                    line-height: 1.7;
+                                    font-size: 15px;
+                                '>
+                                    Haz clic en el siguiente botón para completar el proceso:
+                                </p>
+
+                                <!-- Botón -->
+                                <div style='text-align: center; margin: 35px 0;'>
+                                    <a href='{callbackUrl}' style='
+                                        display: inline-block;
+                                        padding: 14px 28px;
+                                        background-color: #D4AF37;
+                                        color: white;
+                                        text-decoration: none;
+                                        border-radius: 8px;
+                                        font-weight: bold;
+                                        font-size: 15px;
+                                    '>
+                                        Confirmar mi cuenta
+                                    </a>
+                                </div>
+
+                                <p style='
+                                    color: #777;
+                                    font-size: 14px;
+                                    line-height: 1.6;
+                                '>
+                                    Si no realizaste este registro, puedes ignorar este mensaje.
+                                    No será necesario realizar ninguna acción adicional.
+                                </p>
+
+                                <p style='
+                                    color: #777;
+                                    font-size: 14px;
+                                    margin-top: 30px;
+                                '>
+                                    Atentamente,<br>
+                                    <strong>Administración del Sistema</strong><br>
+                                    Gobierno de la Alcaldía Tláhuac
+                                </p>
+
+                            </div>
+
+                            <!-- Footer -->
+                            <div style='
+                                background-color: #f5f5f5;
+                                padding: 20px;
+                                text-align: center;
+                                font-size: 12px;
+                                color: #888;
+                            '>
+                                Este es un correo automático, por favor no respondas a este mensaje.
+                            </div>
+
+                        </div>
+
+                    </div>";
+
+
+                    try
+                    {
+                        await _emailSender.SendEmailAsync(
+                            Input.Email,
+                            "Confirma tu cuenta",
+                            mensaje);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error enviando correo");
+
+                        ModelState.AddModelError(string.Empty,
+                            "Usuario creado, pero no se pudo enviar el correo. Intenta reenviar la confirmación.");
+                    }
+
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
                     }
                     else
                     {
@@ -184,9 +313,9 @@ namespace Sistema_Actividades_Tlahuac.Areas.Identity.Pages.Account
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
-                    $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+                throw new InvalidOperationException($"No se puede crear una instancia de'{nameof(ApplicationUser)}'. " +
+                    $"Asegúrese de que '{nameof(ApplicationUser)}' no sea una clase abstracta y tenga un constructor sin parámetros, o bien" +
+                    $"sobrescriba la página de registro en Register");
             }
         }
 
@@ -194,7 +323,7 @@ namespace Sistema_Actividades_Tlahuac.Areas.Identity.Pages.Account
         {
             if (!_userManager.SupportsUserEmail)
             {
-                throw new NotSupportedException("The default UI requires a user store with email support.");
+                throw new NotSupportedException("La interfaz de usuario predeterminada requiere una tienda de usuarios con soporte por correo electrónico..");
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
         }
