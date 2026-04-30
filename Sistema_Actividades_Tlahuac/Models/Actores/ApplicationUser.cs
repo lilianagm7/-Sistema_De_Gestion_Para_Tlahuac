@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace Sistema_Actividades_Tlahuac.Models.Actores
 {
     public class ApplicationUser:IdentityUser
@@ -12,7 +13,13 @@ namespace Sistema_Actividades_Tlahuac.Models.Actores
 
         [Required(ErrorMessage = "El apellido materno es obligatorio")]
         public string ApellidoMaterno { get; set; }
+
+        [NotMapped]
+        public string NombreCompleto => $"{Nombre} {ApellidoPaterno} {ApellidoMaterno}";
+
         public DateTime FechaCreacion { get; set; }
 
+        //Relacion con instructor
+        public virtual Instructor Instructor { get; set; }
     }
 }

@@ -20,8 +20,56 @@ html {
 body {
     margin-bottom: 60px;
 }
+/*Imagenes*/
+.image-container {
+    width: 100%;
+    height: 225px; /* alto fijo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #f8f8f8;
+}
 
+.evento-img {
+    width: 300px; /* ancho fijo */
+    height: 225px; /* alto fijo */
+    object-fit: cover;
+    border-radius: 8px;
+}
+.card {
+    transition: 0.2s ease;
+}
 
+    .card:hover {
+        transform: translateY(-4px);
+    }
+
+.card-title {
+    min-height: 50px;
+}
+/*Imegen en detalles*/
+.image-container-detalle {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    background-color: #f8f8f8;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.detalle-img {
+    max-width: 320px;
+    max-height: 400px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+}
+}
+
+/*Botones*/
 .btn-crear {
     background-color: #800020;
     color: white;

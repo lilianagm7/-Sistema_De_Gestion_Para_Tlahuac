@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sistema_Actividades_Tlahuac.Data;
 
@@ -11,9 +12,11 @@ using Sistema_Actividades_Tlahuac.Data;
 namespace Sistema_Actividades_Tlahuac.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260425044448_Modelo_instructor")]
+    partial class Modelo_instructor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,14 +251,16 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DescripcionGrado")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Direccion")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmailContacto")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Especialidad")
@@ -278,6 +283,7 @@ namespace Sistema_Actividades_Tlahuac.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FotoUrl")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -286,23 +292,21 @@ namespace Sistema_Actividades_Tlahuac.Migrations
 
                     b.Property<string>("RFC")
                         .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Salario")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("Telefono")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TipoContrato")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UsuarioCreaId")
+                    b.Property<string>("TipoContrato")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UsuarioCreacion")
@@ -313,9 +317,8 @@ namespace Sistema_Actividades_Tlahuac.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioCreaId")
-                        .IsUnique()
-                        .HasFilter("[UsuarioCreaId] IS NOT NULL");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.HasIndex("UsuarioCreacion");
 
@@ -716,9 +719,11 @@ namespace Sistema_Actividades_Tlahuac.Migrations
 
             modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Actores.Instructor", b =>
                 {
-                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "UsuarioCrea")
+                    b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "User")
                         .WithOne("Instructor")
-                        .HasForeignKey("Sistema_Actividades_Tlahuac.Models.Actores.Instructor", "UsuarioCreaId");
+                        .HasForeignKey("Sistema_Actividades_Tlahuac.Models.Actores.Instructor", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Sistema_Actividades_Tlahuac.Models.Actores.ApplicationUser", "Usuario")
                         .WithMany()
@@ -732,9 +737,9 @@ namespace Sistema_Actividades_Tlahuac.Migrations
 
                     b.Navigation("Us_Modifica");
 
-                    b.Navigation("Usuario");
+                    b.Navigation("User");
 
-                    b.Navigation("UsuarioCrea");
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Sistema_Actividades_Tlahuac.Models.Catalogos.Categoria", b =>

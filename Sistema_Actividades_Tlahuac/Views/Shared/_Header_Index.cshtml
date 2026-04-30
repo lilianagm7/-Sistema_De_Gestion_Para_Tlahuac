@@ -1,49 +1,59 @@
-﻿
-<div class="d-flex justify-content-between align-items-center mb-3">
+﻿<div class="container-fluid mb-3">
 
-    <h1 class="mb-0">@ViewData["Title"]</h1>
+    <div class="row align-items-center g-2">
+        <div class="col-12 col-md-auto">
+            <h1 class="mb-0">@ViewData["Title"]</h1>
+        </div>
 
-    <div class="d-flex align-items-center gap-2">
-        <!-- Botones-->
-        @if (User.IsInRole("Administrador"))
-        {
-            <a asp-action="Index" asp-route-mostrarInactivos="false" class="btn btn-secondary">
-                <i class="bi bi-check-circle"></i>
-            </a>
+        <div class="col-12 col-md">
+            <div class="d-flex flex-wrap justify-content-md-end align-items-center gap-2">
 
-            <a asp-action="Index" asp-route-mostrarInactivos="true" class="btn btn-secondary">
-                <i class="bi bi-x-circle"></i>
-            </a>
-        }
+                @if (User.IsInRole("Administrador"))
+                {
+                    <a asp-action="Index" asp-route-mostrarInactivos="false" class="btn btn-secondary">
+                        <i class="bi bi-check-circle"></i>
+                    </a>
 
-        <form method="get"
-              asp-controller="@ViewContext.RouteData.Values["controller"]"
-              asp-action="Index"
-              class="d-flex">
-            <input type="text"
-                   name="buscador"
-                   value="@Context.Request.Query["buscador"]"
-                   class="form-control form-control-sm"
-                   style="width:300px;"
-                   placeholder="Buscar..." />
+                    <a asp-action="Index" asp-route-mostrarInactivos="true" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i>
+                    </a>
+                }
 
-            <button type="submit" class="btn btn-dorado ms-2">
-                <i class="bi bi-search"></i>
-            </button>
-        </form>
+                <form method="get"
+                      asp-controller="@ViewContext.RouteData.Values["controller"]"
+                      asp-action="Index"
+                      class="d-flex flex-grow-1 flex-md-grow-0">
 
-        <a asp-controller="Home"
-           asp-action="Index"
-           class="btn btn-secondary">
-            <i class="bi bi-house"></i>
-        </a>
+                    <input type="text"
+                           name="buscador"
+                           value="@Context.Request.Query["buscador"]"
+                           class="form-control form-control-sm"
+                           placeholder="Buscar..." />
 
-        @if (User.IsInRole("Administrador"))
-        {
-            <a asp-action="Create"
-               class="btn btn-dorado">
-                <i class="bi bi-plus-lg"></i> Nuevo
-            </a>
-        }
+                    <button type="submit" class="btn btn-dorado ms-2">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="btn btn-secondary">
+                    <i class="bi bi-house"></i>
+                </a>
+
+                @if (User.IsInRole("Administrador"))
+                {
+                    <a asp-action="Create"
+                       class="btn btn-dorado">
+                        <i class="bi bi-plus-lg"></i>
+                        <span class="d-none d-md-inline"> Nuevo</span>
+                    </a>
+                }
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>
