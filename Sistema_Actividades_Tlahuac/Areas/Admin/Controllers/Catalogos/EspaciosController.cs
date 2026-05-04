@@ -5,8 +5,9 @@ using Sistema_Actividades_Tlahuac.Models.Catalogos;
 using Sistema_Actividades_Tlahuac.Services.Catalogos;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
+namespace Sistema_Actividades_Tlahuac.Areas.Admin.Controllers.Catalogos
 {
+    [Area("Admin")]
     [Authorize]
     public class EspaciosController : Controller
     {

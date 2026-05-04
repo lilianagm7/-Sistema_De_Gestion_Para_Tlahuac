@@ -8,6 +8,14 @@
         <div class="col-12 col-md">
             <div class="d-flex flex-wrap justify-content-md-end align-items-center gap-2">
 
+                <a asp-action="Index" asp-route-mostrarInactivos="false" class="btn btn-secondary">
+                    <i class="bi bi-check-circle"></i>
+                </a>
+
+                <a asp-action="Index" asp-route-mostrarInactivos="true" class="btn btn-secondary">
+                    <i class="bi bi-x-circle"></i>
+                </a>
+
                 <form method="get"
                       asp-controller="@ViewContext.RouteData.Values["controller"]"
                       asp-action="Index"
@@ -24,12 +32,26 @@
                     </button>
                 </form>
 
-                <a asp-controller="Home"
+
+                <a asp-controller="Dashboard"
                    asp-action="Index"
                    class="btn btn-secondary">
                     <i class="bi bi-house"></i>
                 </a>
+
+                @if (User.IsInRole("Administrador"))
+                {
+                    <a asp-action="Create"
+                       class="btn btn-dorado">
+                        <i class="bi bi-plus-lg"></i>
+                        <span class="d-none d-md-inline"> Nuevo</span>
+                    </a>
+                }
+
             </div>
+
         </div>
+
     </div>
+
 </div>

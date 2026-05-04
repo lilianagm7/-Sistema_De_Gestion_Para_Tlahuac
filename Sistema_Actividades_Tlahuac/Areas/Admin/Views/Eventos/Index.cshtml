@@ -19,9 +19,10 @@
                 </div>
 
                 <div class="card-body">
-
+                    <!-- Nombre -->
                     <h5 class="card-title">@item.Nombre</h5>
 
+                    <!-- Fechas -->
                     <p class="card-text mb-1">
                         <strong>Inicio:</strong> @item.FechaInicio.ToString("dd/MM/yyyy")
                     </p>
@@ -29,22 +30,31 @@
                         <strong>Fin:</strong> @item.FechaFin.ToString("dd/MM/yyyy")
                     </p>
 
+                    <!-- Lugar -->
                     <p class="card-text mb-1">
                         <strong>Lugar:</strong> @item.EspacioNombre
                     </p>
 
+                    <!-- Categoría -->
                     <p class="card-text mb-1">
                         <strong>Categoría:</strong> @item.CategoriaNombre
                     </p>
 
+                    <!-- Cupos -->
                     <p class="card-text">
                         <strong>Cupos disponibles:</strong> @item.CuposDisponibles
                     </p>
+
                 </div>
 
+                <!-- Botones -->
                 <div>
+
                     <partial name="_Botones_Usuarios" model="item.Id" />
+
+                    <partial name="_Botones_Tablas" model="item.Id" />
                 </div>
+
             </div>
         </div>
     }

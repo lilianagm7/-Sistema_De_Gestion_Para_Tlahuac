@@ -1,0 +1,70 @@
+﻿@model Sistema_Actividades_Tlahuac.Models.ViewModels.Eventos.EventoDetailsViewModel
+
+@{
+    ViewData["Title"] = "Detalles del Evento";
+}
+<partial name="_Header_Vistas" />
+<hr />
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="image-container-detalle">
+                <img src="@(string.IsNullOrEmpty(Model.ImagenUrl)
+                ? "/images/default.jpg"
+                : Model.ImagenUrl)"
+                     class="detalle-img" />
+            </div>
+
+            <div class="card-body">
+                <h3 class="mb-3">@Model.Nombre</h3>
+                <p class="text-muted">@Model.Descripcion</p>
+                <hr />
+                <h6 class="mb-3 text-muted">Información del evento</h6>
+                
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <strong>Lugar:</strong><br />
+                        @Model.LugarNombre
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <strong>Espacio:</strong><br />
+                        @Model.EspacioNombre
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <strong>Categoría:</strong><br />
+                        @Model.CategoriaNombre
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <strong>Capacidad evento:</strong><br />
+                        @Model.CapacidadMaxima
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <strong>Capacidad del espacio:</strong><br />
+                        @Model.CapacidadEspacio
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <strong>Cupos disponibles:</strong><br />
+                        @Model.CuposDisponibles
+                    </div>
+                </div>
+                <hr />
+
+
+                <h6 class="mb-3 text-muted">Fechas del evento</h6>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <strong>Fecha inicio:</strong><br />
+                        @Model.FechaInicio.ToString("dd/MM/yyyy HH:mm")
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Fecha fin:</strong><br />
+                        @Model.FechaFin.ToString("dd/MM/yyyy HH:mm")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

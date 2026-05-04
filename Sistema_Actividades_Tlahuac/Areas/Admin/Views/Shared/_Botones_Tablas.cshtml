@@ -1,0 +1,20 @@
+﻿@model int
+<div class="btn-group gap-1 gap-1" role="group">
+    @if (User.IsInRole("Administrador") || User.IsInRole("Coordinador"))
+    {
+        <a asp-action="Edit"
+           asp-route-id="@Model"
+           class="btn btn-sm btn-modificar">
+            <i class="bi bi-pencil"></i>
+        </a>
+    }
+    <br>
+    @if (User.IsInRole("Administrador"))
+    {
+        <a asp-action="Delete"
+           asp-route-id="@Model"
+           class="btn btn-sm btn-eliminar">
+            <i class="bi bi-trash-fill"></i>
+        </a>
+    }
+</div>

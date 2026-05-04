@@ -24,7 +24,7 @@ namespace Sistema_Actividades_Tlahuac.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public LoginModel( UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -83,7 +83,7 @@ namespace Sistema_Actividades_Tlahuac.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name = "¿Desear recordar tu cuenta?")]
+            [Display(Name = "¿Desear recordar su cuenta?")]
             public bool RememberMe { get; set; }
         }
 
@@ -112,7 +112,7 @@ namespace Sistema_Actividades_Tlahuac.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                //Buscar usuario primero
+                // Buscar usuario primero
                 var user = await _userManager.FindByEmailAsync(Input.Email);
 
                 // Bloquear si no ha confirmado su correo
@@ -122,7 +122,7 @@ namespace Sistema_Actividades_Tlahuac.Areas.Identity.Pages.Account
                     return Page();
                 }
 
-                //Intento de login
+                // Intento de login
                 var result = await _signInManager.PasswordSignInAsync(
                     Input.Email,
                     Input.Password,
@@ -133,6 +133,17 @@ namespace Sistema_Actividades_Tlahuac.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Usuario conectado.");
+
+                    //OBTENER USUARIO AUTENTICADO
+                    user = await _userManager.FindByEmailAsync(Input.Email);
+
+                    //VALIDAR ROL
+                    if (user != null && await _userManager.IsInRoleAsync(user, "Administrador"))
+                    {
+                        return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                    }
+
+                    //SI NO ES ADMIN → comportamiento normal
                     return LocalRedirect(returnUrl);
                 }
 
@@ -151,7 +162,7 @@ namespace Sistema_Actividades_Tlahuac.Areas.Identity.Pages.Account
                     return RedirectToPage("./Lockout");
                 }
 
-                //Error genérico
+                // Error genérico
                 ModelState.AddModelError(string.Empty, "El intento de inicio de sesión es inválido.");
                 return Page();
             }

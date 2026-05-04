@@ -1,0 +1,94 @@
+﻿@model Sistema_Actividades_Tlahuac.Models.Catalogos.Lugar
+@using Sistema_Actividades_Tlahuac.Models.Enums
+
+@{
+    ViewData["Title"] = "Crear un nuevo lugar";
+}
+
+<partial name="_Header_Vistas" />
+<hr />
+
+<div class="container-fluid px-4">
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-lg-5">
+
+                    <form asp-action="Create">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- Nombre + Colonia -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Nombre" class="form-label"></label>
+                                <input asp-for="Nombre" class="form-control" />
+                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Colonia" class="form-label"></label>
+                                <input asp-for="Colonia" class="form-control" />
+                                <span asp-validation-for="Colonia" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Sección + Dirección -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Seccion" class="form-label"></label>
+                                <input asp-for="Seccion" class="form-control" />
+                                <span asp-validation-for="Seccion" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Direccion" class="form-label"></label>
+                                <textarea asp-for="Direccion"
+                                          class="form-control"
+                                          rows="2"
+                                          style="resize: both;"></textarea>
+                                <span asp-validation-for="Direccion" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Latitud + Longitud -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Latitud" class="form-label"></label>
+                                <input asp-for="Latitud" class="form-control" />
+                                <span asp-validation-for="Latitud" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Longitud" class="form-label"></label>
+                                <input asp-for="Longitud" class="form-control" />
+                                <span asp-validation-for="Longitud" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="mt-4 d-flex justify-content-end gap-2">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                Cancelar
+                            </a>
+
+                            <button type="submit" class="btn btn-dorado">
+                                Crear lugar
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
