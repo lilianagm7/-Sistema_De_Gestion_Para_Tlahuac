@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sistema_Actividades_Tlahuac.Data;
 using Sistema_Actividades_Tlahuac.Models.Actores;
 using Sistema_Actividades_Tlahuac.Services.Instructores;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
-namespace Sistema_Actividades_Tlahuac.Controllers.Instructores
+namespace Sistema_Actividades_Tlahuac.Areas.Admin.Controllers.Instructores
 {
+    [Area("Admin")]
+    [Authorize(Roles = "Administrador")]
     public class InstructoresController : Controller
     {
         private readonly InstructorService _instructorService;

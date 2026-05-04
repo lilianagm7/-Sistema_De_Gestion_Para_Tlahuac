@@ -10,8 +10,9 @@ using Sistema_Actividades_Tlahuac.Data;
 using Sistema_Actividades_Tlahuac.Models.Catalogos;
 using Sistema_Actividades_Tlahuac.Services.Catalogos;
 
-namespace Sistema_Actividades_Tlahuac.Controllers.Catalogos
+namespace Sistema_Actividades_Tlahuac.Areas.Admin.Controllers.Catalogos
 {
+    [Area("Admin")]
     [Authorize]
     public class ParentescosController : Controller
     {

@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Admin - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    
+
+
+</head>
+
+@RenderSection("Scripts", required: false)
+
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <div class="sidebar-title">
+            Panel Admin
+        </div>
+
+        <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="sidebar-link">
+            <i class="bi bi-speedometer2 me-2"></i> Inicio
+        </a>
+
+        <a asp-area="Admin" asp-controller="Eventos" asp-action="Index" class="sidebar-link">
+            <i class="bi bi-calendar-event me-2"></i> Eventos
+        </a>
+
+        <a asp-area="Admin" asp-controller="Instructores" asp-action="Index" class="sidebar-link">
+            <i class="bi bi-person-badge me-2"></i> Instructores
+        </a>
+
+        <a asp-area="Admin" asp-controller="Categorias" asp-action="Index" class="sidebar-link">
+            <i class="bi bi-tags me-2"></i> Categorías
+        </a>
+
+        <a asp-area="Admin" asp-controller="Espacios" asp-action="Index" class="sidebar-link">
+            <i class="bi bi-door-open"></i>  Espacios
+        </a>
+
+        <a asp-area="Admin" asp-controller="Lugares" asp-action="Index" class="sidebar-link">
+            <i class="bi bi-geo-alt-fill"></i>  Lugares
+        </a>
+        <a asp-area="Admin" asp-controller="Parentescos" asp-action="Index" class="sidebar-link">
+            <i class="bi bi-people"></i>  Parentezcos
+        </a>
+
+        <hr />
+
+
+    </div>
+
+    <!-- CONTENIDO DINÁMICO -->
+    <div class="content">
+
+        <div>
+        </div>
+
+        @RenderBody()
+
+    </div>
+
+</body>
+</html>

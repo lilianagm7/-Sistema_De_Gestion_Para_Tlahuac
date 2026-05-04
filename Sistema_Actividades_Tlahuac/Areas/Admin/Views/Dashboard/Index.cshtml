@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+<h1>Index</h1>
+
+<div class="container mt-4">
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <a asp-area="Admin" asp-controller="Eventos" asp-action="Index" class="card admin-card text-decoration-none">
+                <div class="card-body text-center">
+                    <i class="bi bi-calendar-event fs-1"></i>
+                    <h5 class="mt-3">Eventos</h5>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-area="Admin" asp-controller="Talleres" asp-action="Index" class="card admin-card text-decoration-none">
+                <div class="card-body text-center">
+                    <i class="bi bi-easel fs-1"></i>
+                    <h5 class="mt-3">Talleres</h5>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-area="Admin" asp-controller="Instructores" asp-action="Index" class="card admin-card text-decoration-none">
+                <div class="card-body text-center">
+                    <i class="bi bi-person-badge fs-1"></i>
+                    <h5 class="mt-3">Instructores</h5>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-area="Admin" asp-controller="Categorias" asp-action="Index" class="card admin-card text-decoration-none">
+                <div class="card-body text-center">
+                    <i class="bi bi-tags fs-1"></i>
+                    <h5 class="mt-3">Categorías</h5>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+</div>

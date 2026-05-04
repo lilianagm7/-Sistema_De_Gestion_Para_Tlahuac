@@ -3,8 +3,9 @@ using Sistema_Actividades_Tlahuac.Models.ViewModels.Eventos;
 using Sistema_Actividades_Tlahuac.Services.Eventos;
 using System.Security.Claims;
 
-namespace Sistema_Actividades_Tlahuac.Controllers.Eventos
+namespace Sistema_Actividades_Tlahuac.Areas.Admin.Controllers.Eventos
 {
+    [Area("Admin")]
     public class EventosController : Controller
     {
         private readonly EventoService _eventoService;
