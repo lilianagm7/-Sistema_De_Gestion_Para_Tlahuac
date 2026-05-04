@@ -1,49 +1,87 @@
 ﻿@{
     ViewData["Title"] = "Dashboard";
 }
-<h1>Index</h1>
 
-<div class="container mt-4">
+<div class="container-fluid">
 
+    <h2 class="mb-4">📊 Panel Administrativo</h2>
+
+    <!-- MÉTRICAS -->
     <div class="row g-4">
 
-        <div class="col-md-4">
-            <a asp-area="Admin" asp-controller="Eventos" asp-action="Index" class="card admin-card text-decoration-none">
-                <div class="card-body text-center">
-                    <i class="bi bi-calendar-event fs-1"></i>
-                    <h5 class="mt-3">Eventos</h5>
-                </div>
-            </a>
+        <div class="col-md-3">
+            <div class="card admin-card p-3 text-center">
+                <h6>Eventos</h6>
+                <h2>@ViewBag.TotalEventos</h2>
+            </div>
         </div>
 
-        <div class="col-md-4">
-            <a asp-area="Admin" asp-controller="Talleres" asp-action="Index" class="card admin-card text-decoration-none">
-                <div class="card-body text-center">
-                    <i class="bi bi-easel fs-1"></i>
-                    <h5 class="mt-3">Talleres</h5>
-                </div>
-            </a>
+        <div class="col-md-3">
+            <div class="card admin-card p-3 text-center">
+                <h6>Talleres</h6>
+                <h2>@ViewBag.TotalTalleres</h2>
+            </div>
         </div>
 
-        <div class="col-md-4">
-            <a asp-area="Admin" asp-controller="Instructores" asp-action="Index" class="card admin-card text-decoration-none">
-                <div class="card-body text-center">
-                    <i class="bi bi-person-badge fs-1"></i>
-                    <h5 class="mt-3">Instructores</h5>
-                </div>
-            </a>
+        <div class="col-md-3">
+            <div class="card admin-card p-3 text-center">
+                <h6>Instructores</h6>
+                <h2>@ViewBag.TotalInstructores</h2>
+            </div>
         </div>
 
-        <div class="col-md-4">
-            <a asp-area="Admin" asp-controller="Categorias" asp-action="Index" class="card admin-card text-decoration-none">
-                <div class="card-body text-center">
-                    <i class="bi bi-tags fs-1"></i>
-                    <h5 class="mt-3">Categorías</h5>
-                </div>
-            </a>
+        <div class="col-md-3">
+            <div class="card admin-card p-3 text-center">
+                <h6>Categorías</h6>
+                <h2>@ViewBag.TotalCategorias</h2>
+            </div>
         </div>
 
 
     </div>
 
+    <!-- GRÁFICAS -->
+    <div class="row mt-5">
+
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h5>Eventos por estado</h5>
+                <canvas id="eventosChart"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h5>Eventos por categoría</h5>
+                <canvas id="categoriasChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const eventosChart = new Chart(document.getElementById('eventosChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Activos', 'Planeados', 'Finalizados'],
+            datasets: [{
+                label: 'Eventos',
+                data: [@ViewBag.Activos, @ViewBag.Planeados, @ViewBag.Finalizados]
+            }]
+        }
+    });
+
+    const categoriasChart = new Chart(document.getElementById('categoriasChart'), {
+        type: 'pie',
+        data: {
+            labels: @Html.Raw(ViewBag.CategoriasLabels),
+            datasets: [{
+                data: @Html.Raw(ViewBag.CategoriasData)
+            }]
+        }
+    });
+</script>
