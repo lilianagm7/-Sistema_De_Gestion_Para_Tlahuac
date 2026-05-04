@@ -20,6 +20,21 @@ html {
 body {
     margin-bottom: 60px;
 }
+/*home*/
+
+.icono a {
+    color: #5a0f2e; /* vino */
+    text-decoration: none;
+}
+
+    .icono a:visited {
+        color: #5a0f2e;
+    }
+
+    .icono a:hover {
+        color: #7a1a3c; /* vino un poco más claro al pasar el mouse */
+    }
+
 /*Imagenes*/
 .image-container {
     width: 100%;
