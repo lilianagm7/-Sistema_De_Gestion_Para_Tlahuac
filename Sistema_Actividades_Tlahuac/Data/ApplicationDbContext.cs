@@ -62,6 +62,12 @@ namespace Sistema_Actividades_Tlahuac.Data
 
             modelBuilder.Entity<Instructor>()
                 .HasOne(i => i.Usuario)
+                .WithOne(u => u.Instructor)
+                .HasForeignKey<Instructor>(i => i.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Instructor>()
+                .HasOne(i => i.UsuarioCrea)
                 .WithMany()
                 .HasForeignKey(i => i.UsuarioCreacion)
                 .OnDelete(DeleteBehavior.Restrict);

@@ -45,16 +45,16 @@ namespace Sistema_Actividades_Tlahuac.Services.Instructores
                     (id == null || i.Id != id));
         }
 
-        //Crear nuevo instructor
-        public async Task Crear(Instructor instructor, string usuarioId)
+        //Crear nuevo 
+        public async Task Crear(Instructor instructor, string usuarioId, IFormFile? fotoArchivo = null)
         {
             if (await ExisteInstructorPorUsuario(instructor.UserId))
                 throw new Exception("Este usuario ya está registrado como instructor");
 
             if (await ExisteRFC(instructor.RFC))
                 throw new Exception("Ya existe un instructor con ese RFC");
-            var user = await _userManager.FindByIdAsync(instructor.UserId);
 
+            var user = await _userManager.FindByIdAsync(instructor.UserId);
             if (user == null)
                 throw new Exception("Usuario no válido");
 
@@ -68,12 +68,26 @@ namespace Sistema_Actividades_Tlahuac.Services.Instructores
             instructor.UsuarioCreacion = usuarioId;
             instructor.FechaCreacion = DateTime.UtcNow;
             instructor.Estado = EstadoRegistro.Activo;
+
+            if (fotoArchivo != null)
+                instructor.FotoUrl = await GuardarFoto(fotoArchivo);
+
             _context.Instructores.Add(instructor);
             await _context.SaveChangesAsync();
         }
+        //Ver detalles
+        public async Task<Instructor?> ObtenerDetalles(int id)
+        {
+            return await _context.Instructores
+                .Include(i => i.Usuario)
+                .Include(i => i.UsuarioCrea)
+                .Include(i => i.Us_Modifica)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(i => i.Id == id);
+        }
 
-        //Editar instructor
-        public async Task Editar(Instructor model, string usuarioId)
+        //Editar
+        public async Task Editar(Instructor model, string usuarioId, IFormFile? fotoArchivo = null)
         {
             var instructor = await _context.Instructores.FindAsync(model.Id);
 
@@ -95,11 +109,15 @@ namespace Sistema_Actividades_Tlahuac.Services.Instructores
             instructor.Telefono = model.Telefono;
             instructor.EmailContacto = model.EmailContacto;
 
+            if (fotoArchivo != null)
+                instructor.FotoUrl = await GuardarFoto(fotoArchivo);
+
             instructor.UsuarioModificacion = usuarioId;
             instructor.FechaModificacion = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
         }
+
         //Desactivar
         public async Task Desactivar(int id, string usuarioId)
         {
@@ -116,23 +134,38 @@ namespace Sistema_Actividades_Tlahuac.Services.Instructores
         }
 
         //Obtener lista
-        public async Task<List<Instructor>> ObtenerTodos(string? buscador, bool mostrarInactivos)
+        public async Task<List<Instructor>> ObtenerTodos(
+            string? buscador,
+            string? buscadorRfc,
+            bool mostrarInactivos)
         {
             var query = _context.Instructores
                 .Include(i => i.Usuario)
                 .AsQueryable();
 
             if (!mostrarInactivos)
-                query = query.Where(i => i.Estado == EstadoRegistro.Activo);
-
-            if (!string.IsNullOrEmpty(buscador))
             {
-                buscador = buscador.ToUpper();
+                query = query.Where(i => i.Estado == EstadoRegistro.Activo);
+            }
+
+            // Buscador general
+            if (!string.IsNullOrWhiteSpace(buscador))
+            {
+                buscador = buscador.Trim().ToUpper();
 
                 query = query.Where(i =>
-                    i.RFC.ToUpper().Contains(buscador) ||
-                    i.Especialidad.ToUpper().Contains(buscador) ||
-                    i.Usuario.NombreCompleto.ToUpper().Contains(buscador));
+                    i.Usuario.Nombre.ToUpper().Contains(buscador) ||
+                    i.Usuario.ApellidoPaterno.ToUpper().Contains(buscador) ||
+                    i.Usuario.ApellidoMaterno.ToUpper().Contains(buscador));
+            }
+
+            // Buscador RFC
+            if (!string.IsNullOrWhiteSpace(buscadorRfc))
+            {
+                buscadorRfc = buscadorRfc.Trim().ToUpper();
+
+                query = query.Where(i =>
+                    i.RFC.ToUpper().Contains(buscadorRfc));
             }
 
             return await query
@@ -204,7 +237,7 @@ namespace Sistema_Actividades_Tlahuac.Services.Instructores
                 usuarios.Add(new SelectListItem
                 {
                     Value = user.Id,
-                    Text = user.Email + " (" + user.Nombre + " " + user.ApellidoPaterno + " " +user.ApellidoMaterno + ")"
+                    Text = user.Email + " (" + user.Nombre + " " + user.ApellidoPaterno + " " + user.ApellidoMaterno + ")"
                 });
             }
 

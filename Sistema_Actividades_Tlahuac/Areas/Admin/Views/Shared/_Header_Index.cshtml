@@ -8,12 +8,20 @@
         <div class="col-12 col-md">
             <div class="d-flex flex-wrap justify-content-md-end align-items-center gap-2">
 
-                <a asp-action="Index" asp-route-mostrarInactivos="false" class="btn btn-secondary">
+                <a asp-action="Index"
+                   asp-route-mostrarInactivos="false"
+                   class="btn btn-sm btn-activos rounded-circle d-flex align-items-center justify-content-center">
+
                     <i class="bi bi-check-circle"></i>
+
                 </a>
 
-                <a asp-action="Index" asp-route-mostrarInactivos="true" class="btn btn-secondary">
+                <a asp-action="Index"
+                   asp-route-mostrarInactivos="true"
+                   class="btn btn-sm btn-inactivos rounded-circle d-flex align-items-center justify-content-center">
+
                     <i class="bi bi-x-circle"></i>
+
                 </a>
 
                 <form method="get"

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sistema_Actividades_Tlahuac.Data;
 using Sistema_Actividades_Tlahuac.Models.Actores;
+using Sistema_Actividades_Tlahuac.Services.Eventos;
 using Sistema_Actividades_Tlahuac.Services.Instructores;
 using System;
 using System.Collections.Generic;
@@ -25,18 +26,24 @@ namespace Sistema_Actividades_Tlahuac.Areas.Admin.Controllers.Instructores
         }
 
         // GET: Instructores
-        public async Task<IActionResult> Index(string? buscador, bool mostrarInactivos = false)
+        // GET: Instructores
+        public async Task<IActionResult> Index(string? buscador, string? buscadorRfc, bool mostrarInactivos = false)
         {
-            var instructores = await _instructorService.ObtenerTodos(buscador, mostrarInactivos);
+            var instructores = await _instructorService.ObtenerTodos(
+                buscador,
+                buscadorRfc,
+                mostrarInactivos);
+
             return View(instructores);
         }
+
 
 
 
         // GET: Instructores/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["UserId"] = await _instructorService.ObtenerUsuariosDisponibles(); 
+            ViewData["UserId"] = await _instructorService.ObtenerUsuariosDisponibles();
             return View();
         }
 
@@ -45,7 +52,7 @@ namespace Sistema_Actividades_Tlahuac.Areas.Admin.Controllers.Instructores
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Instructor instructor)
+        public async Task<IActionResult> Create(Instructor instructor, IFormFile? FotoArchivo)
         {
             if (!ModelState.IsValid)
             {
@@ -56,24 +63,27 @@ namespace Sistema_Actividades_Tlahuac.Areas.Admin.Controllers.Instructores
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                await _instructorService.Crear(instructor, userId);
+                await _instructorService.Crear(instructor, userId, FotoArchivo);
 
                 return RedirectToAction(nameof(Index));
-
-                foreach (var campo in ModelState)
-                {
-                    foreach (var error in campo.Value.Errors)
-                    {
-                        Console.WriteLine($"{campo.Key}: {error.ErrorMessage}");
-                    }
-                }
             }
             catch (Exception ex)
             {
-               
+                ModelState.AddModelError("", ex.Message);
+                ViewData["UserId"] = await _instructorService.ObtenerUsuariosDisponibles();
                 return View(instructor);
             }
+        }
 
+        // GET: Instructores/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            var instructor = await _instructorService.ObtenerDetalles(id);
+
+            if (instructor == null)
+                return NotFound();
+
+            return View(instructor);
         }
 
         // GET: Instructores/Edit/5
@@ -92,7 +102,7 @@ namespace Sistema_Actividades_Tlahuac.Areas.Admin.Controllers.Instructores
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Instructor instructor)
+        public async Task<IActionResult> Edit(int id, Instructor instructor, IFormFile? FotoArchivo)
         {
             if (id != instructor.Id)
                 return NotFound();
@@ -104,7 +114,7 @@ namespace Sistema_Actividades_Tlahuac.Areas.Admin.Controllers.Instructores
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                await _instructorService.Editar(instructor, userId);
+                await _instructorService.Editar(instructor, userId, FotoArchivo);
 
                 return RedirectToAction(nameof(Index));
             }

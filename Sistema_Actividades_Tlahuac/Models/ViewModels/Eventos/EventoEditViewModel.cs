@@ -39,6 +39,7 @@ namespace Sistema_Actividades_Tlahuac.Models.ViewModels.Eventos
         [Range(1, int.MaxValue, ErrorMessage = "La capacidad debe ser mayor a 0")]
         [Display(Name = "Capacidad máxima")]
         public int CapacidadMaxima { get; set; }
+        public bool EventoYaInicio { get; set; }
 
         [Display(Name = "Estado")]
         public EstadoEvento Estado { get; set; }
@@ -51,5 +52,7 @@ namespace Sistema_Actividades_Tlahuac.Models.ViewModels.Eventos
 
         public List<SelectListItem> Espacios { get; set; } = new();
         public List<SelectListItem> Categorias { get; set; } = new();
+
+
     }
 }

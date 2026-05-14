@@ -16,6 +16,12 @@ namespace Sistema_Actividades_Tlahuac.Services.Eventos
         {
             _context = context;
         }
+        private readonly IWebHostEnvironment _env;
+        public EventoService(ApplicationDbContext context, IWebHostEnvironment env)
+        {
+            _context = context;
+            _env = env;
+        }
 
         // PARA EL INDEX
         public async Task<List<EventoIndexViewModel>> ObtenerEventosParaIndex()
@@ -43,7 +49,7 @@ namespace Sistema_Actividades_Tlahuac.Services.Eventos
         public async Task<EventoDetailsViewModel?> ObtenerDetalle(int id)
         {
             return await _context.Eventos
-                .Include(e => e.Espacio).ThenInclude(e => e.Lugar)
+                .Include(e => e.Espacio)
                 .Include(e => e.Categoria)
                 .Where(e => e.Id == id)
                 .Select(e => new EventoDetailsViewModel
@@ -53,23 +59,20 @@ namespace Sistema_Actividades_Tlahuac.Services.Eventos
                     Descripcion = e.Descripcion,
                     FechaInicio = e.FechaInicio,
                     FechaFin = e.FechaFin,
-                    LugarNombre = e.Espacio.Lugar.Nombre,
                     EspacioNombre = e.Espacio.Nombre,
                     CapacidadEspacio = e.Espacio.Capacidad,
                     CategoriaNombre = e.Categoria.Nombre,
                     CapacidadMaxima = e.CapacidadMaxima,
                     CuposDisponibles = e.CuposDisponibles,
-                    ImagenUrl = e.ImagenUrl
+                    ImagenUrl = e.ImagenUrl,
+                    Estado = e.Estado,
+                    FechaCreacion = e.FechaCreacion,
+                    FechaModificacion = e.FechaModificacion,
+                    UsuarioModificacion = e.UsuarioModificacion
                 })
                 .FirstOrDefaultAsync();
         }
-        private readonly IWebHostEnvironment _env;
 
-        public EventoService(ApplicationDbContext context, IWebHostEnvironment env)
-        {
-            _context = context;
-            _env = env;
-        }
 
         public async Task<string?> GuardarImagen(IFormFile? imagen)
         {
@@ -92,8 +95,6 @@ namespace Sistema_Actividades_Tlahuac.Services.Eventos
                 throw new Exception("El archivo no es una imagen válida");
 
             //CREAR CARPETA SI NO EXISTE
-            //var carpeta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imagenes/eventos");
-
             var carpeta = Path.Combine(_env.WebRootPath, "imagenes/eventos");
 
             if (!Directory.Exists(carpeta))
@@ -192,6 +193,7 @@ namespace Sistema_Actividades_Tlahuac.Services.Eventos
         }
 
         //EDITAR EVENTOS
+
         public async Task<EventoEditViewModel?> ObtenerParaEditar(int id)
         {
             var evento = await _context.Eventos.FindAsync(id);
@@ -209,7 +211,8 @@ namespace Sistema_Actividades_Tlahuac.Services.Eventos
                 CategoriaId = evento.CategoriaId,
                 CapacidadMaxima = evento.CapacidadMaxima,
                 Estado = evento.Estado,
-                ImagenActualUrl = evento.ImagenUrl
+                ImagenActualUrl = evento.ImagenUrl,
+                EventoYaInicio = evento.FechaInicio <= DateTime.Now
             };
         }
 
@@ -220,26 +223,49 @@ namespace Sistema_Actividades_Tlahuac.Services.Eventos
             if (evento == null)
                 throw new Exception("Evento no encontrado");
 
-            // VALIDACIONES
-            if (model.FechaFin <= model.FechaInicio)
-                throw new Exception("La fecha de fin debe ser mayor a la de inicio");
+            var eventoYaInicio = evento.FechaInicio <= DateTime.Now;
 
-            if (model.FechaInicio < DateTime.Today)
-                throw new Exception("No puedes usar fechas pasadas");
+            // Si ya inició, bloquea campos sensibles
+            if (eventoYaInicio)
+            {
+                if (model.FechaInicio != evento.FechaInicio ||
+                    model.FechaFin != evento.FechaFin ||
+                    model.CapacidadMaxima != evento.CapacidadMaxima ||
+                    model.EspacioId != evento.EspacioId)
+                {
+                    throw new Exception("No puedes modificar fechas, capacidad ni espacio de un evento que ya inició.");
+                }
+            }
+            else
+            {
+                // Validaciones normales solo si el evento aún no inicia
+                if (model.FechaFin <= model.FechaInicio)
+                    throw new Exception("La fecha de fin debe ser mayor a la de inicio");
 
-            var espacio = await _context.Espacios.FindAsync(model.EspacioId);
+                if (model.FechaInicio <= DateTime.Now)
+                    throw new Exception("No puedes usar fechas pasadas");
 
-            if (espacio == null)
-                throw new Exception("Espacio no válido");
+                var espacio = await _context.Espacios.FindAsync(model.EspacioId);
+                if (espacio == null)
+                    throw new Exception("Espacio no válido");
 
-            if (model.CapacidadMaxima > espacio.Capacidad)
-                throw new Exception("La capacidad excede el espacio");
+                if (model.CapacidadMaxima > espacio.Capacidad)
+                    throw new Exception("La capacidad excede el espacio");
 
-            // IMAGEN
+                var conflicto = await _context.Eventos.AnyAsync(e =>
+                    e.Id != evento.Id &&
+                    e.EspacioId == model.EspacioId &&
+                    e.Estado == EstadoEvento.Activo &&
+                    model.FechaInicio < e.FechaFin &&
+                    model.FechaFin > e.FechaInicio);
 
+                if (conflicto)
+                    throw new Exception("El espacio ya está ocupado en ese rango de fechas");
+            }
+
+            // Imagen
             if (model.Imagen != null)
             {
-                // borrar anterior (opcional pero recomendado)
                 if (!string.IsNullOrEmpty(evento.ImagenUrl))
                 {
                     var rutaAnterior = Path.Combine(_env.WebRootPath, evento.ImagenUrl.TrimStart('/'));
@@ -252,15 +278,20 @@ namespace Sistema_Actividades_Tlahuac.Services.Eventos
                 evento.ImagenUrl = nuevaRuta;
             }
 
-            // ACTUALIZAR DATOS
+            // Campos permitidos siempre
             evento.Nombre = model.Nombre;
             evento.Descripcion = model.Descripcion;
-            evento.FechaInicio = model.FechaInicio;
-            evento.FechaFin = model.FechaFin;
-            evento.EspacioId = model.EspacioId;
             evento.CategoriaId = model.CategoriaId;
-            evento.CapacidadMaxima = model.CapacidadMaxima;
             evento.Estado = model.Estado;
+
+            // Solo si aún no inicia
+            if (!eventoYaInicio)
+            {
+                evento.FechaInicio = model.FechaInicio;
+                evento.FechaFin = model.FechaFin;
+                evento.EspacioId = model.EspacioId;
+                evento.CapacidadMaxima = model.CapacidadMaxima;
+            }
 
             evento.UsuarioModificacion = usuarioId;
             evento.FechaModificacion = DateTime.UtcNow;

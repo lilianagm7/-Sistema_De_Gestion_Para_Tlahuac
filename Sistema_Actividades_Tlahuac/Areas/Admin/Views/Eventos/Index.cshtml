@@ -3,59 +3,120 @@
 @{
     ViewData["Title"] = "Eventos";
 }
+
 <partial name="_Header_Index" />
 
-<div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
+<div class="container mt-4">
 
-                <!-- Imagen -->
-                <div class="image-container">
-                    <img src="@(!string.IsNullOrEmpty(item.ImagenUrl)? Url.Content("~" + item.ImagenUrl)
-                           : Url.Content("~/imagenes/default.jpg"))"
-                           class="card-img-top evento-img" />
-                </div>
+    <div class="card border-0 shadow-sm rounded-4">
 
-                <div class="card-body">
-                    <!-- Nombre -->
-                    <h5 class="card-title">@item.Nombre</h5>
+        <div class="card-body p-4">
 
-                    <!-- Fechas -->
-                    <p class="card-text mb-1">
-                        <strong>Inicio:</strong> @item.FechaInicio.ToString("dd/MM/yyyy")
-                    </p>
-                    <p class="card-text mb-1">
-                        <strong>Fin:</strong> @item.FechaFin.ToString("dd/MM/yyyy")
-                    </p>
+            <div class="table-responsive">
 
-                    <!-- Lugar -->
-                    <p class="card-text mb-1">
-                        <strong>Lugar:</strong> @item.EspacioNombre
-                    </p>
+                <table class="table align-middle table-hover">
 
-                    <!-- Categoría -->
-                    <p class="card-text mb-1">
-                        <strong>Categoría:</strong> @item.CategoriaNombre
-                    </p>
+                    <thead class="table-light">
+                        <tr>
+                            <th>Evento</th>
+                            <th>Espacio</th>
+                            <th>Fecha y hora</th>
+                            <th>Cupos</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
 
-                    <!-- Cupos -->
-                    <p class="card-text">
-                        <strong>Cupos disponibles:</strong> @item.CuposDisponibles
-                    </p>
+                    <tbody>
 
-                </div>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
 
-                <!-- Botones -->
-                <div>
+                                <!-- Evento -->
+                                <td style="min-width:280px;">
 
-                    <partial name="_Botones_Usuarios" model="item.Id" />
+                                    <div class="d-flex align-items-center gap-3">
 
-                    <partial name="_Botones_Tablas" model="item.Id" />
-                </div>
+                                        <img src="@(!string.IsNullOrEmpty(item.ImagenUrl)
+                                                                                                  ? Url.Content("~" + item.ImagenUrl)
+                                                                                                  : Url.Content("~/imagenes/default.jpg"))"
+                                         class="rounded-3 border shadow-sm"
+                                         style="width:70px; height:70px; object-fit:cover;" />
+
+                                        <div>
+
+                                            <div class="fw-semibold fs-6">
+                                                @item.Nombre
+                                            </div>
+
+                                            <div class="small text-muted">
+                                                @item.CategoriaNombre
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <!-- Espacio -->
+                                <td>
+                                    @item.EspacioNombre
+                                </td>
+
+                                <!-- Fecha y hora -->
+                                <td>
+
+                                    <div class="fw-semibold">
+                                        @item.FechaInicio.ToString("dd/MM/yyyy")
+                                    </div>
+
+                                    <div class="small text-muted">
+                                        @item.FechaInicio.ToString("hh:mm tt")
+                                    </div>
+
+                                </td>
+
+                                <!-- Cupos -->
+                                <td>
+
+                                    <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill">
+                                        @item.CuposDisponibles
+                                    </span>
+
+                                </td>
+
+                                <!-- Acciones -->
+                                <td class="text-center">
+
+                                    <div class="d-flex justify-content-center align-items-center gap-2">
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-detalles rounded-circle d-flex align-items-center justify-content-center"
+                                           style="width:34px; height:34px;">
+
+                                            <i class="bi bi-eye"></i>
+
+                                        </a>
+
+                                        <partial name="_Botones_Tablas" model="item.Id" />
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                                                }
+
+                    </tbody>
+
+                </table>
 
             </div>
+
         </div>
-    }
+
+    </div>
+
 </div>

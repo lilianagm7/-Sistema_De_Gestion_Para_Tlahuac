@@ -30,6 +30,11 @@ namespace Sistema_Actividades_Tlahuac.Models.Actores
         [Display(Name = "Fotografia")]
         public string? FotoUrl { get; set; }
 
+        [NotMapped]
+        [Display(Name = "Fotografía")]
+        public IFormFile? FotoArchivo { get; set; }
+
+
         [Display(Name = "Grado escolar")]
         public GradoAcademico NivelAcademico { get; set; }
 

@@ -9,130 +9,117 @@
 <hr />
 
 <div class="container">
-    <div class="row">
-        <div class="col-12">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">Nuevo instructor</h4>
+                </div>
 
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-
+                <div class="card-body">
                     <form asp-action="Create" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
-                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="row g-3">
 
-                        <!-- Usuario + RFC -->
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="UserId" class="form-label"></label>
-                                <select asp-for="UserId"
-                                        asp-items="ViewBag.UserId"
-                                        class="form-control">
+                            <div class="col-md-6">
+                                <label asp-for="UserId" class="control-label"></label>
+                                <select asp-for="UserId" asp-items="ViewBag.UserId" class="form-control">
                                     <option value="">-- Selecciona un usuario --</option>
                                 </select>
+                                <span asp-validation-for="UserId" class="text-danger"></span>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="RFC" class="form-label"></label>
+
+                            <div class="col-md-6">
+                                <label asp-for="RFC" class="control-label"></label>
                                 <input asp-for="RFC" class="form-control" />
                                 <span asp-validation-for="RFC" class="text-danger"></span>
                             </div>
-                        </div>
 
-                        <!-- Dirección + Nivel Académico + Descripción -->
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label asp-for="Direccion" class="form-label"></label>
-                                <input asp-for="Direccion" class="form-control" />
+                            <div class="col-md-6">
+                                <label asp-for="Especialidad" class="control-label"></label>
+                                <input asp-for="Especialidad" class="form-control" />
+                                <span asp-validation-for="Especialidad" class="text-danger"></span>
                             </div>
 
-                            <div class="col-md-4 mb-3">
-                                <label asp-for="NivelAcademico" class="form-label"></label>
+                            <div class="col-md-6">
+                                <label asp-for="NivelAcademico" class="control-label"></label>
                                 <select asp-for="NivelAcademico"
                                         asp-items="Html.GetEnumSelectList<GradoAcademico>()"
                                         class="form-control">
+                                    <option value="">-- Selecciona un grado --</option>
                                 </select>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label asp-for="DescripcionGrado" class="form-label"></label>
-                                <input asp-for="DescripcionGrado" class="form-control" />
-                            </div>
-                        </div>
-
-                        <!-- Especialidad + Tipo Contrato + Salario -->
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label asp-for="Especialidad" class="form-label"></label>
-                                <input asp-for="Especialidad" class="form-control" />
+                                <span asp-validation-for="NivelAcademico" class="text-danger"></span>
                             </div>
 
-                            <div class="col-md-4 mb-3">
-                                <label asp-for="TipoContrato" class="form-label"></label>
+                            <div class="col-md-6">
+                                <label asp-for="TipoContrato" class="control-label"></label>
                                 <select asp-for="TipoContrato"
                                         asp-items="Html.GetEnumSelectList<TipoContrato>()"
                                         class="form-control">
+                                    <option value="">-- Selecciona un tipo de contrato --</option>
                                 </select>
+                                <span asp-validation-for="TipoContrato" class="text-danger"></span>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label asp-for="Salario" class="form-label"></label>
+
+                            <div class="col-md-6">
+                                <label asp-for="Salario" class="control-label"></label>
                                 <input asp-for="Salario" class="form-control" />
-                            </div>
-                        </div>
-
-                        <!-- Fechas + Teléfono -->
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label asp-for="FechaIngreso" class="form-label"></label>
-                                <input asp-for="FechaIngreso"
-                                       type="date"
-                                       class="form-control" />
+                                <span asp-validation-for="Salario" class="text-danger"></span>
                             </div>
 
-                            <div class="col-md-4 mb-3">
-                                <label asp-for="FechaFinContrato" class="form-label"></label>
-                                <input asp-for="FechaFinContrato"
-                                       type="date"
-                                       class="form-control" />
+                            <div class="col-md-6">
+                                <label asp-for="FechaIngreso" class="control-label"></label>
+                                <input asp-for="FechaIngreso" type="date" class="form-control" />
+                                <span asp-validation-for="FechaIngreso" class="text-danger"></span>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label asp-for="Telefono" class="form-label"></label>
+
+                            <div class="col-md-6">
+                                <label asp-for="FechaFinContrato" class="control-label"></label>
+                                <input asp-for="FechaFinContrato" type="date" class="form-control" />
+                                <span asp-validation-for="FechaFinContrato" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Telefono" class="control-label"></label>
                                 <input asp-for="Telefono" class="form-control" />
+                                <span asp-validation-for="Telefono" class="text-danger"></span>
                             </div>
-                        </div>
 
-                        <!-- Correo + Foto -->
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="EmailContacto" class="form-label"></label>
+                            <div class="col-md-6">
+                                <label asp-for="EmailContacto" class="control-label"></label>
                                 <input asp-for="EmailContacto" class="form-control" />
+                                <span asp-validation-for="EmailContacto" class="text-danger"></span>
                             </div>
 
-                            <div class="col-md-6 mb-4">
-                                <label asp-for="FotoUrl" class="form-label"></label>
-                                <input asp-for="FotoUrl"
-                                       type="file"
-                                       class="form-control" />
-                                <span asp-validation-for="FotoUrl" class="text-danger"></span>
+                            <div class="col-md-6">
+                                <label asp-for="Direccion" class="control-label"></label>
+                                <input asp-for="Direccion" class="form-control" />
+                                <span asp-validation-for="Direccion" class="text-danger"></span>
                             </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="DescripcionGrado" class="control-label"></label>
+                                <input asp-for="DescripcionGrado" class="form-control" />
+                                <span asp-validation-for="DescripcionGrado" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="FotoArchivo" class="control-label"></label>
+                                <input asp-for="FotoArchivo" type="file" class="form-control" accept=".jpg,.jpeg,.png" />
+                                <span asp-validation-for="FotoArchivo" class="text-danger"></span>
+                                <small class="text-muted">Formatos permitidos: JPG, JPEG, PNG. Tamaño máximo: 2MB.</small>
+                            </div>
+
                         </div>
-                      
-                        <!-- Botones -->
+
                         <div class="mt-4 d-flex justify-content-end gap-2">
-
-                            <a asp-action="Index"
-                               class="btn btn-secondary">
-                                Cancelar
-                            </a>
-
-                            <button type="submit"
-                                    class="btn btn-dorado">
-                                Crear instructor
-                            </button>
-
+                            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-dorado">Crear</button>
                         </div>
-
                     </form>
-
                 </div>
             </div>
-
         </div>
     </div>
 </div>

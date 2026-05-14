@@ -13,8 +13,8 @@ namespace Sistema_Actividades_Tlahuac.Models.Eventos
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public string? ImagenUrl { get; set; }
-        public DateTime FechaInicio { get; set; }
-        public DateTime FechaFin { get; set; }
+        public DateTime FechaInicio { get; set; } = DateTime.UtcNow;
+        public DateTime FechaFin { get; set; } = DateTime.UtcNow;
         public int CapacidadMaxima { get; set; }
 
         //Relacion con espacio

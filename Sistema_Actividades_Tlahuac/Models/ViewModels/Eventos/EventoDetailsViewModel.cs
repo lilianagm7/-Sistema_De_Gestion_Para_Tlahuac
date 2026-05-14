@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Sistema_Actividades_Tlahuac.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sistema_Actividades_Tlahuac.Models.ViewModels.Eventos
 {
@@ -37,6 +38,17 @@ namespace Sistema_Actividades_Tlahuac.Models.ViewModels.Eventos
 
         [Display(Name = "Imagen")]
         public string? ImagenUrl { get; set; }
+
+        [Display(Name = "Estado")]
+        public EstadoEvento Estado { get; set; }
+
+        [Display(Name = "Fecha de creación")]
+        public DateTime FechaCreacion { get; set; }
+
+        [Display(Name = "Fecha de Modificacion")]
+        public DateTime? FechaModificacion { get; set; }
+        [Display(Name = "Usuario de modificacion")]
+        public string? UsuarioModificacion { get; set; }
 
     }
 }

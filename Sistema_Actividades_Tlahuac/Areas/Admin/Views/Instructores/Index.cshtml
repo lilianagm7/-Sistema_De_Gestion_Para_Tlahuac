@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Sistema_Actividades_Tlahuac.Models.Actores.Instructor>
+@using Sistema_Actividades_Tlahuac.Models.Actores
 
 @{
     ViewData["Title"] = "Instructores";
@@ -8,94 +9,119 @@
 
 <div class="container mt-4">
 
-    <div class="card shadow-sm border-0">
+    <div class="card border-0 shadow-sm rounded-4">
+
         <div class="card-body p-4">
+            <div class="row mb-4">
+
+                <div class="col-md-4">
+
+                    <form method="get" class="d-flex gap-2">
+
+                        <input type="text"
+                               name="buscadorRfc"
+                               value="@Context.Request.Query["buscadorRfc"]"
+                               class="form-control"
+                               placeholder="Buscar por RFC..." />
+
+                        <button type="submit" class="btn btn-dorado">
+                            <i class="bi bi-search"></i>
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
 
             <div class="table-responsive">
-                <table class="table table-hover align-middle">
+
+                <table class="table align-middle table-hover">
 
                     <thead class="table-light">
                         <tr>
                             <th>Instructor</th>
-                            <th class="d-none d-md-table-cell">Especialidad</th>
-                            <th class="d-none d-lg-table-cell">Teléfono</th>
-                            <th class="d-none d-lg-table-cell">Correo</th>
+                            <th>Especialidad</th>
+                            <th class="d-none d-lg-table-cell">Contrato</th>
+                            <th class="d-none d-lg-table-cell">Ingreso</th>
                             <th>Estado</th>
                             <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
+
                         @foreach (var item in Model)
                         {
                             <tr>
-
-                                <!-- Instructor -->
-                                <td>
+                                <td style="min-width:280px;">
                                     <div class="d-flex align-items-center gap-3">
 
                                         <img src="@(item.FotoUrl ?? "/images/default-user.png")"
-                                             class="rounded-circle shadow-sm"
-                                             style="width:50px; height:50px; object-fit:cover;" />
+                                             class="rounded-circle border shadow-sm"
+                                             style="width:60px; height:60px; object-fit:cover;" />
 
                                         <div>
-                                            <div class="fw-semibold">
-                                                @item.Usuario?.UserName
+                                            <div class="fw-semibold fs-6">
+                                                @item.Usuario?.NombreCompleto
                                             </div>
 
-                                            <small class="text-muted">
+                                            <div class="text-muted small">
+                                                RFC: @item.RFC
+                                            </div>
+
+                                            <div class="small text-secondary">
                                                 @item.NivelAcademico
-                                            </small>
+                                            </div>
+
                                         </div>
 
                                     </div>
                                 </td>
-
-                                <!-- Especialidad -->
-                                <td class="d-none d-md-table-cell">
-                                    @item.Especialidad
-                                </td>
-
-                                <!-- Teléfono -->
-                                <td class="d-none d-lg-table-cell">
-                                    @item.Telefono
-                                </td>
-
-                                <!-- Correo -->
-                                <td class="d-none d-lg-table-cell">
-                                    @item.EmailContacto
-                                </td>
-
-                                <!-- Estado -->
                                 <td>
+                                    <span class="fw-medium">
+                                        @item.Especialidad
+                                    </span>
+                                </td>
+                                <td class="d-none d-lg-table-cell">
+                                    @item.TipoContrato
+                                </td>
+                                <td class="d-none d-lg-table-cell">
+                                    @(item.FechaIngreso?.ToString("dd/MM/yyyy"))
+                                </td>
+                                <td>
+
                                     @if (item.Estado == Sistema_Actividades_Tlahuac.Models.Enums.EstadoRegistro.Activo)
                                     {
-                                        <span class="badge rounded-pill bg-success px-3 py-2">
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill">
                                             Activo
                                         </span>
                                     }
                                     else
                                     {
-                                        <span class="badge rounded-pill bg-secondary px-3 py-2">
+                                        <span class="badge bg-secondary-subtle text-secondary border px-3 py-2 rounded-pill">
                                             Inactivo
                                         </span>
                                     }
-                                </td>
 
-                                <!-- Acciones -->
+                                </td>
                                 <td class="text-center">
-                                    <div class="d-flex justify-content-center align-items-center gap-2">
+
+                                    <!-- Botones -->
+                                    <div>
+                                        <a asp-action="Details"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-editar rounded-circle">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
                                         <partial name="_Botones_Tablas" model="item.Id" />
                                     </div>
                                 </td>
-
                             </tr>
                         }
                     </tbody>
-
                 </table>
             </div>
-
         </div>
     </div>
 </div>
