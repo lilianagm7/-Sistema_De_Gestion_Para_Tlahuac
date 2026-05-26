@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Sistema_Actividades_Tlahuac.Data;
 using Sistema_Actividades_Tlahuac.Data.Seed;
 using Sistema_Actividades_Tlahuac.Models.Actores;
+using Sistema_Actividades_Tlahuac.Models.Alumnos;
+using Sistema_Actividades_Tlahuac.Services.Actores;
+using Sistema_Actividades_Tlahuac.Services.Alumnos;
 using Sistema_Actividades_Tlahuac.Services.Catalogos;
 using Sistema_Actividades_Tlahuac.Services.Eventos;
 using Sistema_Actividades_Tlahuac.Services.Instructores;
@@ -17,6 +20,7 @@ builder.Services.AddScoped<LugarService>();
 builder.Services.AddScoped<ParentescoService>();
 builder.Services.AddScoped<EventoService>();
 builder.Services.AddScoped<InstructorService>();
+builder.Services.AddScoped<IAlumnoService, AlumnoService>();
 
 
 //correo

@@ -1,0 +1,207 @@
+﻿@model Sistema_Actividades_Tlahuac.Models.Alumnos.Alumno
+
+@{
+    bool esPropio = Model.Parentesco != null && Model.Parentesco.Nombre == "PROPIO";
+}
+
+
+<div class="container mt-4">
+
+    <div class="mb-4 d-flex justify-content-between align-items-start flex-wrap gap-3">
+
+        <div>
+            <h2 class="fw-bold mb-1" style="color:#5a0f2e;">
+                <i class="bi bi-pencil-square me-2"></i>
+                Editar alumno
+            </h2>
+
+            <p class="text-muted mb-0">
+                Actualiza los datos del alumno registrado desde tu cuenta.
+            </p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="btn btn-secondary">
+                <i class="bi bi-house"></i>
+                <span class="d-none d-md-inline"> Inicio</span>
+            </a>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header text-white"
+             style="background: linear-gradient(90deg, #5a0f2e, #a51c30);">
+
+            <h5 class="mb-0">
+                Información del alumno
+            </h5>
+
+        </div>
+
+        <div class="card-body p-4">
+
+            <form asp-action="Edit" method="post">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <input type="hidden" asp-for="Id" />
+                @Html.HiddenFor(m => m.Estado)
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold d-block">
+                        ¿El alumno eres tú?
+                    </label>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input"
+                               type="radio"
+                               name="esPropio"
+                               id="esPropioSi"
+                               value="true"
+                               @(esPropio ? "checked" : "") />
+
+                        <label class="form-check-label" for="esPropioSi">
+                            Sí, soy yo
+                        </label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input"
+                               type="radio"
+                               name="esPropio"
+                               id="esPropioNo"
+                               value="false"
+                               @(!esPropio ? "checked" : "") />
+
+                        <label class="form-check-label" for="esPropioNo">
+                            No, es otra persona
+                        </label>
+                    </div>
+
+                    <div class="form-text">
+                        Si seleccionas “Sí”, los datos del alumno quedarán ligados a tu perfil.
+                    </div>
+                </div>
+
+                <div id="contenedorDatosAlumno">
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-4">
+                            <label asp-for="Nombre" class="form-label fw-semibold"></label>
+                            <input asp-for="Nombre"
+                                   class="form-control text-uppercase campo-alumno"
+                                   autocomplete="off" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label asp-for="ApellidoPaterno" class="form-label fw-semibold"></label>
+                            <input asp-for="ApellidoPaterno"
+                                   class="form-control text-uppercase campo-alumno"
+                                   autocomplete="off" />
+                            <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label asp-for="ApellidoMaterno" class="form-label fw-semibold"></label>
+                            <input asp-for="ApellidoMaterno"
+                                   class="form-control text-uppercase campo-alumno"
+                                   autocomplete="off" />
+                            <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="FechaNacimiento" class="form-label fw-semibold"></label>
+                            <input asp-for="FechaNacimiento" type="date" class="form-control" />
+                            <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="TelefonoContacto" class="form-label fw-semibold"></label>
+                            <input asp-for="TelefonoContacto" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="TelefonoContacto" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Curp" class="form-label fw-semibold"></label>
+                            <input asp-for="Curp"
+                                   class="form-control text-uppercase"
+                                   autocomplete="off" />
+                            <span asp-validation-for="Curp" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 rounded-3"
+                     style="background-color:#f8f4ea; border-left:4px solid #C9A227;">
+
+                    <small class="text-muted d-block">
+                        Revisa bien antes de guardar. Si el alumno es propio, el sistema conservará la lógica de tu perfil.
+                    </small>
+
+                </div>
+
+                <div class="mt-4 d-flex justify-content-end gap-2">
+                    <a asp-action="Index" class="btn btn-light border">
+                        <i class="bi bi-arrow-left me-1"></i>
+                        Cancelar
+                    </a>
+
+                    <button type="submit" class="btn btn-dorado">
+                        <i class="bi bi-check-circle me-1"></i>
+                        Guardar cambios
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const radioPropioSi = document.getElementById('esPropioSi');
+        const radioPropioNo = document.getElementById('esPropioNo');
+        const camposAlumno = document.querySelectorAll('.campo-alumno');
+
+        function toggleCamposAlumno() {
+            const esPropio = radioPropioSi.checked;
+
+            camposAlumno.forEach(campo => {
+                campo.readOnly = esPropio;
+
+                if (esPropio) {
+                    campo.classList.add('bg-light');
+                } else {
+                    campo.classList.remove('bg-light');
+                }
+            });
+        }
+
+        radioPropioSi.addEventListener('change', toggleCamposAlumno);
+        radioPropioNo.addEventListener('change', toggleCamposAlumno);
+
+        toggleCamposAlumno();
+
+        document.querySelectorAll('.text-uppercase').forEach(input => {
+            input.addEventListener('input', function () {
+                this.value = this.value.toUpperCase();
+            });
+        });
+    </script>
+}

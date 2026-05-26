@@ -6,7 +6,7 @@ namespace Sistema_Actividades_Tlahuac.Models.Enums
     {
         [Display(Name = "Activo")]
         Activo = 1,
-        [Display(Name = "Desactivado")]
+        [Display(Name = "Inactivo")]
         Inactivo = 2
     }
 }

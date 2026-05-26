@@ -43,6 +43,18 @@
                 </a>
             </li>
 
+            <!-- ALUMNOS -->
+            <li class="nav-item">
+                <a class="nav-link @ManageNavPages.AlumnosNavClass(ViewContext)"
+                   asp-area=""
+                   asp-controller="MisAlumnos"
+                   asp-action="Index">
+                    <i class="bi bi-journal-text me-2"></i>
+                    Mis alumnos
+                </a>
+            </li>
+
+
             <!-- LOGINS EXTERNOS -->
             @if (hasExternalLogins)
             {

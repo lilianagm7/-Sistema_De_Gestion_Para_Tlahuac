@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Sistema_Actividades_Tlahuac.Models.Actores;
+using Sistema_Actividades_Tlahuac.Models.Alumnos;
 using Sistema_Actividades_Tlahuac.Models.Catalogos;
-using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 using Sistema_Actividades_Tlahuac.Models.Eventos;
+using Sistema_Actividades_Tlahuac.Models.Inscripciones;
 using Sistema_Actividades_Tlahuac.Models.Talleres;
+using System.Security.Claims;
 
 namespace Sistema_Actividades_Tlahuac.Data
 {
@@ -29,18 +31,13 @@ namespace Sistema_Actividades_Tlahuac.Data
         public DbSet<Evento> Eventos { get; set; }
         public DbSet<Taller> Talleres { get; set; }
         public DbSet<Instructor> Instructores { get; set; }
+        public DbSet<Alumno> Alumnos { get; set; }
+        public DbSet<Inscripcion> Inscripciones { get; set; }
 
         //NO permite que se borren datos en cascada por parte de inscripciones.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            /*          modelBuilder.Entity<Inscripcion>()
-                             .HasOne(i => i.UsuarioRegistro)
-                             .WithMany()
-                             .HasForeignKey(i => i.UsuarioRegistroId)
-                             .OnDelete(DeleteBehavior.Restrict); //Restringe borrar registros
-            */
 
             /*          //NO permite que se borren datos en cascada por parte de Eventos.
 
@@ -60,11 +57,53 @@ namespace Sistema_Actividades_Tlahuac.Data
                 .HasIndex(c => c.Nombre)
                 .IsUnique();
 
+            modelBuilder.Entity<Alumno>()
+                .HasOne(a => a.UsuarioResponsable)
+                .WithMany()
+                .HasForeignKey(a => a.UsuarioResponsableId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Alumno>()
+                .HasOne(a => a.Parentesco)
+                .WithMany()
+                .HasForeignKey(a => a.ParentescoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Instructor>()
                 .HasOne(i => i.Usuario)
                 .WithOne(u => u.Instructor)
                 .HasForeignKey<Instructor>(i => i.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            //INSCRIPCIONES
+            //NO permite que se borren datos en cascada por parte de alumnos e inscripciones.
+            modelBuilder.Entity<Inscripcion>()
+                .HasOne(i => i.Alumno)
+                .WithMany(a => a.Inscripciones)
+                .HasForeignKey(i => i.AlumnoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Inscripcion>()
+                .HasOne(i => i.Evento)
+                .WithMany()
+                .HasForeignKey(i => i.EventoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Inscripcion>()
+                .HasOne(i => i.Taller)
+                .WithMany()
+                .HasForeignKey(i => i.TallerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Inscripcion>()
+                .HasIndex(i => new { i.AlumnoId, i.EventoId })
+                .IsUnique()
+                .HasFilter("[EventoId] IS NOT NULL");
+
+            modelBuilder.Entity<Inscripcion>()
+                .HasIndex(i => new { i.AlumnoId, i.TallerId })
+                .IsUnique()
+                .HasFilter("[TallerId] IS NOT NULL");
 
             modelBuilder.Entity<Instructor>()
                 .HasOne(i => i.UsuarioCrea)
@@ -120,6 +159,17 @@ namespace Sistema_Actividades_Tlahuac.Data
                         instructor.UsuarioCreacion = userId;
                         instructor.FechaCreacion = DateTime.Now;
                     }
+                    if (entry.Entity is Alumno alumno)
+                    {
+                        alumno.UsuarioCreacion = userId;
+                        alumno.FechaCreacion = DateTime.Now;
+                    }
+
+                    if (entry.Entity is Inscripcion inscripcion)
+                    {
+                        inscripcion.UsuarioCreacion = userId;
+                        inscripcion.FechaCreacion = DateTime.Now;
+                    }
                 }
 
                 //AUDITORIA PARA MODIFICACIÓN (USUARIOS Y FECHAS)
@@ -153,6 +203,17 @@ namespace Sistema_Actividades_Tlahuac.Data
                     {
                         instructor.UsuarioModificacion = userId;
                         instructor.FechaModificacion = DateTime.Now;
+                    }
+                    if (entry.Entity is Alumno alumno)
+                    {
+                        alumno.UsuarioModificacion = userId;
+                        alumno.FechaModificacion = DateTime.Now;
+                    }
+
+                    if (entry.Entity is Inscripcion inscripcion)
+                    {
+                        inscripcion.UsuarioModificacion = userId;
+                        inscripcion.FechaModificacion = DateTime.Now;
                     }
 
                     //PROTECCION AL MOMENTO DE CAMBIOS

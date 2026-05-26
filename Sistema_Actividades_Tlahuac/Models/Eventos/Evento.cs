@@ -18,6 +18,7 @@ namespace Sistema_Actividades_Tlahuac.Models.Eventos
         public int CapacidadMaxima { get; set; }
 
         //Relacion con espacio
+        [Required(ErrorMessage = "El espacio es obligatorio")]
         public int EspacioId { get; set; }
         public Espacio Espacio { get; set; }
 

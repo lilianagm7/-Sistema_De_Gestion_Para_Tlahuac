@@ -1,0 +1,167 @@
+﻿@model Sistema_Actividades_Tlahuac.Models.Alumnos.Alumno
+@using Sistema_Actividades_Tlahuac.Models.Enums
+
+@{
+    ViewData["Title"] = "Editar alumno";
+    bool esUsuarioExterno = ViewBag.EsUsuarioExterno == null ? true : (bool)ViewBag.EsUsuarioExterno;
+}
+
+<partial name="_Header_Vistas" />
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-10 col-xl-9">
+        <div class="card shadow-sm border-0" style="border-top: 4px solid #a51c30;">
+            <div class="card-header text-white" style="background: linear-gradient(90deg, #5a0f2e, #a51c30);">
+                <h5 class="mb-0">
+                    <i class="bi bi-pencil-square me-2"></i>
+                    Editar alumno
+                </h5>
+            </div>
+
+            <div class="card-body p-4">
+                <form asp-action="Edit" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <input type="hidden" asp-for="Id" />
+                    @Html.HiddenFor(m => m.Estado)
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-12">
+                            <div class="form-check form-switch">
+                                <input type="hidden" name="esUsuarioExterno" value="false" />
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       id="esUsuarioExterno"
+                                       name="esUsuarioExterno"
+                                       value="true"
+                                       @(esUsuarioExterno ? "checked" : "") />
+                                <label class="form-check-label fw-semibold" for="esUsuarioExterno">
+                                    Usuario externo
+                                </label>
+                            </div>
+                            <div class="form-text">
+                                Si está activo, podrás editar manualmente el nombre del alumno.
+                                Si no, el sistema tomará los datos del usuario responsable.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label asp-for="UsuarioResponsableId" class="form-label fw-semibold"></label>
+                            <select asp-for="UsuarioResponsableId"
+                                    asp-items="ViewBag.UsuariosResponsables"
+                                    class="form-select">
+                                <option value="">-- Selecciona un usuario responsable --</option>
+                            </select>
+                            <span asp-validation-for="UsuarioResponsableId" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="ParentescoId" class="form-label fw-semibold"></label>
+                            <select asp-for="ParentescoId"
+                                    asp-items="ViewBag.Parentescos"
+                                    class="form-select">
+                                <option value="">-- Selecciona un parentesco --</option>
+                            </select>
+                            <span asp-validation-for="ParentescoId" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label asp-for="Nombre" class="form-label fw-semibold"></label>
+                            <input asp-for="Nombre"
+                                   class="form-control text-uppercase"
+                                   id="Nombre"
+                                   autocomplete="off" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label asp-for="ApellidoPaterno" class="form-label fw-semibold"></label>
+                            <input asp-for="ApellidoPaterno"
+                                   class="form-control text-uppercase"
+                                   id="ApellidoPaterno"
+                                   autocomplete="off" />
+                            <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label asp-for="ApellidoMaterno" class="form-label fw-semibold"></label>
+                            <input asp-for="ApellidoMaterno"
+                                   class="form-control text-uppercase"
+                                   id="ApellidoMaterno"
+                                   autocomplete="off" />
+                            <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label asp-for="FechaNacimiento" class="form-label fw-semibold"></label>
+                            <input asp-for="FechaNacimiento" type="date" class="form-control" />
+                            <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label asp-for="Curp" class="form-label fw-semibold"></label>
+                            <input asp-for="Curp"
+                                   class="form-control text-uppercase"
+                                   autocomplete="off" />
+                            <span asp-validation-for="Curp" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label asp-for="TelefonoContacto" class="form-label fw-semibold"></label>
+                            <input asp-for="TelefonoContacto" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="TelefonoContacto" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-3 rounded-3" style="background-color: #f8f4ea; border-left: 4px solid #C9A227;">
+                        <small class="text-muted d-block mb-1">
+                            <strong>Nota:</strong> si desactivas “Usuario externo”, los nombres quedarán sujetos a los datos del usuario responsable.
+                        </small>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-end gap-2">
+                        <button type="submit" class="btn btn-dorado">
+                            <i class="bi bi-check-circle me-1"></i> Guardar cambios
+                        </button>
+
+                        <a asp-action="Index" class="btn btn-light border">
+                            <i class="bi bi-arrow-left me-1"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        (function () {
+            const chk = document.getElementById('esUsuarioExterno');
+            const nombre = document.getElementById('Nombre');
+            const apellidoPaterno = document.getElementById('ApellidoPaterno');
+            const apellidoMaterno = document.getElementById('ApellidoMaterno');
+
+            function toggleDatosAlumno() {
+                const habilitado = chk.checked;
+
+                [nombre, apellidoPaterno, apellidoMaterno].forEach(input => {
+                    input.readOnly = !habilitado;
+                    input.classList.toggle('bg-light', !habilitado);
+                });
+
+                nombre.required = habilitado;
+                apellidoPaterno.required = habilitado;
+                apellidoMaterno.required = habilitado;
+            }
+
+            chk.addEventListener('change', toggleDatosAlumno);
+            toggleDatosAlumno();
+        })();
+    </script>
+}
